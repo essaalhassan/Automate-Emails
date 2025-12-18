@@ -1,0 +1,1726 @@
+{
+  "name": "infofinal",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "952e1ff7-8f1c-4729-b170-ffd7e8457f08",
+              "name": "=from_email",
+              "value": "={{ $('forward Department heads1').item.json.from.value[0].address }}",
+              "type": "string"
+            },
+            {
+              "id": "92325990-bfed-4834-9780-de70ab84c12a",
+              "name": "subject",
+              "value": "={{ $('forward Department heads1').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "dcf206ea-c19b-49c0-b49e-5c654483308a",
+              "name": "=body",
+              "value": "={{ $('forward Department heads1').item.json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "bbe285be-1de5-4bf9-bb10-49ff1731f51e",
+              "name": "date & time",
+              "value": "={{ $('forward Department heads1').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "e4d2ac32-85e3-498a-9d3b-52142d444362",
+              "name": "summary",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "fea7478a-688d-4415-8915-892f6e8c8b5d",
+              "name": "ID",
+              "value": "={{ $('forward Department heads1').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5728,
+        2800
+      ],
+      "id": "d6125dae-3d00-4367-b1d6-23e6bfcd7910",
+      "name": "NormalizeAIOutput3"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -5520,
+        2800
+      ],
+      "id": "e0327d29-928e-4ca9-b7e2-21de079cc641",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -6928,
+        3312
+      ],
+      "id": "033f6bf8-7898-4fb3-999d-5391de3357f7",
+      "name": "Gmail info2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "="
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4416,
+        4192
+      ],
+      "id": "2e0f314e-1de5-43ba-9778-ddd49c44268b",
+      "name": "Mark a message as read10",
+      "webhookId": "05beca1d-4b32-4285-98c5-8922156a561b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "مرحبا",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4416,
+        3392
+      ],
+      "id": "39cd3ed8-77f1-45c3-841d-ade7c3b209c9",
+      "name": "SALES2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4416,
+        3984
+      ],
+      "id": "7ab12209-806d-4372-9f14-c2712dc1a689",
+      "name": "CONTRACT2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4208,
+        3792
+      ],
+      "id": "829ab967-f7db-466c-91e8-c3d26733a77d",
+      "name": "repo PROJECT2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4208,
+        3584
+      ],
+      "id": "39be8ea9-451e-45df-8a89-87c2ff039dfe",
+      "name": "repo FINANCE2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4208,
+        3392
+      ],
+      "id": "a0ac0907-54d2-4cda-bc25-bebfa19b99df",
+      "name": "repo SALES2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4208,
+        3984
+      ],
+      "id": "2a4e4759-d2ca-4d2f-8b28-956497695caf",
+      "name": "repo CONTRACT2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4000,
+        3392
+      ],
+      "id": "f7707278-e87e-420c-8f87-e64611256898",
+      "name": "Append row in sheet11",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4000,
+        3584
+      ],
+      "id": "a2e9ae46-353f-42d6-bb7b-ff84b59bf584",
+      "name": "Append row in sheet15",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3792,
+        3392
+      ],
+      "id": "56e17cd2-a91f-4568-bc34-4d2e0f2577d3",
+      "name": "Reply to a message17",
+      "webhookId": "15f22f26-8d4a-4cc8-8734-62f3dbe0a8e8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3792,
+        3584
+      ],
+      "id": "b097eab3-4aa2-49d8-9f3e-805a2bc7ffc5",
+      "name": "Reply to a message18",
+      "webhookId": "cd37f156-a2ea-45ac-b134-68586dc42ef3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3792,
+        3792
+      ],
+      "id": "a1a608d1-8c45-4abe-86a0-e8729e614e2a",
+      "name": "Reply to a message19",
+      "webhookId": "e0f44c5d-9537-4cc9-93ee-73c328e10df0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3792,
+        3984
+      ],
+      "id": "aa218fa0-d720-49bb-ab01-29030311b33e",
+      "name": "Reply to a message20",
+      "webhookId": "7e4006b3-09c4-42d4-b14f-53c7ec75b1d0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3584,
+        3392
+      ],
+      "id": "33e85fba-79b6-4b68-afb6-3986bba0a8ed",
+      "name": "Add label to message18",
+      "webhookId": "b8b258ae-516d-436a-8c1b-a6506ad7e76c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3584,
+        3584
+      ],
+      "id": "3998a7ad-469e-467a-af07-24b12dfd8514",
+      "name": "Add label to message19",
+      "webhookId": "1535344f-bc06-43f5-9723-fc17367809d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3584,
+        3792
+      ],
+      "id": "6bceda15-0a69-4eae-bcc5-1239fabaebb6",
+      "name": "Add label to message20",
+      "webhookId": "9d933998-7c34-4da5-a797-404cee53f79f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3584,
+        3984
+      ],
+      "id": "2632519e-3133-4b7f-ad24-adc5674175b2",
+      "name": "Add label to message21",
+      "webhookId": "02f2a0fb-4aea-4a87-845b-e9931390d504",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3376,
+        3392
+      ],
+      "id": "11764b11-917e-4879-bf0b-d8fc18333335",
+      "name": "Notify Company Site11"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3376,
+        3584
+      ],
+      "id": "2619d9d7-9386-497c-9ed6-4219a3dd6f6b",
+      "name": "Notify Company Site12"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3376,
+        3792
+      ],
+      "id": "45705be5-f099-498a-95ff-69576af66217",
+      "name": "Notify Company Site13"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3376,
+        3984
+      ],
+      "id": "1cc7df61-4be3-4bc4-b86a-b7b1755c5bfe",
+      "name": "Notify Company Site14"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "مرحبا ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4416,
+        3792
+      ],
+      "id": "716d03c9-ac0c-4a45-ace1-5997cb179e07",
+      "name": "PROJECT2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4416,
+        3584
+      ],
+      "id": "1ac4b497-6917-41ba-9547-9607e13a17f1",
+      "name": "FINANCE2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4000,
+        3984
+      ],
+      "id": "2035f9ff-48b8-487f-a9fa-e967e2907768",
+      "name": "Append row in sheet16",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4000,
+        3792
+      ],
+      "id": "2029cfa8-fb52-4a79-85bb-6ceaea90dd3f",
+      "name": "Append row in sheet17",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "61be9c2f-5bb0-4159-aa64-6be77b1b24d8",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cd94946e-edb0-4e1f-ab78-d22c9d4417f0",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "f2d6c23e-06f7-4427-a687-872068fa6625",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5cded0fe-c473-497c-8bf0-959a9a892d83",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -6688,
+        3312
+      ],
+      "id": "f3d67c56-442b-4687-bc06-5b8786370405",
+      "name": "forward Department heads1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -6288,
+        3616
+      ],
+      "id": "da1e7227-eacf-4774-acca-a484953a8bcd",
+      "name": "OpenAI Chat Model8",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -5008,
+        3952
+      ],
+      "id": "ce41cdef-6790-4291-9530-72ccc8ba74fe",
+      "name": "OpenAI Chat Model9",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "The address and content are read and checked for attachments. The address and content are then analyzed to determine whether the email is real or fake. If it is real, it will be classified as the appropriate email. First, if there are attachments with the email, they will be moved with the classification to the next category: Sales, Finance, General Mail, Contracts and Purchasing, Projects, or Spam, which is then classified as deleted mail.",
+        "categories": {
+          "categories": [
+            {
+              "category": "HR",
+              "description": "Human resource  "
+            },
+            {
+              "category": "sales",
+              "description": "sales privacy "
+            },
+            {
+              "category": "finance ",
+              "description": "finance privacy "
+            },
+            {
+              "category": "project ",
+              "description": "project privacy "
+            },
+            {
+              "category": "contract",
+              "description": "contract privacy "
+            },
+            {
+              "category": "spam",
+              "description": "It has nothing to do with any email. It is considered a spam email such as advertisements, offers, and discounts."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -4928,
+        3616
+      ],
+      "id": "c836a453-0d70-4a15-980b-b854138085bf",
+      "name": "Email forwarding"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -5568,
+        3760
+      ],
+      "id": "e3b9471a-4633-4660-ad40-e9af1b27c7a5",
+      "name": "Mark a message as read7",
+      "webhookId": "c05d5a2f-c845-4b70-badf-f9ac65f3e077",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -2832,
+        3632
+      ],
+      "id": "a1c1f69d-a4b8-4ea8-8fcf-d0bb95dde078",
+      "name": "AI Agent11"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2848,
+        3824
+      ],
+      "id": "81ab7a5c-9e4e-4805-ac1f-5d209d26b5e4",
+      "name": "OpenAI Chat Model15",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -3040,
+        3584
+      ],
+      "id": "d5d49ff7-cef2-4219-8841-dca93e2eaa31",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4416,
+        3216
+      ],
+      "id": "50ea8c48-eafd-41dc-913d-fcb8e845dd23",
+      "name": "HR",
+      "webhookId": "5f51eeef-41aa-4e69-b415-c3a2ad3e5240",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "63d62c04-7eb8-46cd-9d6e-55a4184f4d68",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4208,
+        3216
+      ],
+      "id": "0d144e87-5ca9-44a4-8d0c-6d2f239d0a91",
+      "name": "repo HR"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3792,
+        3216
+      ],
+      "id": "f3e0365c-3011-4267-8fbe-5e0a5fa93f70",
+      "name": "Reply to a message",
+      "webhookId": "40aa41c0-116d-441a-a56a-a028b49c4e82",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3584,
+        3216
+      ],
+      "id": "2250a2fa-ca6f-4ae6-adf8-2e6c906b5ef8",
+      "name": "Add label to message6",
+      "webhookId": "98f2da38-a5bc-4f83-9a85-8b07133f6f6f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3376,
+        3216
+      ],
+      "id": "bedaa589-8ac1-433c-a5c9-d81ca8ad526e",
+      "name": "Notify Company Site1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4000,
+        3216
+      ],
+      "id": "8fdede1b-9d40-4855-b15b-1e01816e03c9",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ ($json[\"subject\"] || \"\") + \" \" + ($json[\"text\"] || $json[\"body\"] || \"\") }}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "INFO",
+              "description": "public email"
+            },
+            {
+              "category": "other",
+              "description": "hr , sales, finance , project , contract"
+            },
+            {
+              "category": "spam_or_irrelevant"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "=You are an enterprise email router for a marketing company. Classify an email as:\n- info  (general inquiries to the company/info@)\n- other (non-info departments)\n- spam_or_irrelevant (ads, discounts, bulk promos, generic notifications, security/login alerts)\n\nAnalyze ONLY Subject and Body; ignore attachments and signatures.\n\nReturn EXACTLY one JSON object with THREE boolean flags.\nSet EXACTLY ONE flag to true (mutually exclusive). No extra text or markdown.\n\nExample output:\n{\"info\": true, \"other\": false, \"spam_or_irrelevant\": false}\n\n⚠️ Focus & Warnings:\n- The most common confusion is between **info** and **spam_or_irrelevant**.\n- **info** = genuine, human inquiries directed to the company (general questions, “contact us” messages, who-to-talk-to, high-level service inquiries without concrete scope).\n- **spam_or_irrelevant** = mass promotional blasts, coupons/discounts, newsletters, and system/security alerts with no business value.\n- If unsure between **info** and **other**, prefer **info**. If the email clearly belongs to a specific department (e.g., detailed quotation scope or HR matters), choose **other**.\n\nGuidelines:\n- spam_or_irrelevant → true when:\n  • Bulk promotions, coupons, discounts, “limited offer”, “save %”, unsubscribe/newsletters.\n  • Security/login/system alerts or generic notifications.\n  • Obvious mass marketing with no clear intent to converse.\n- info → true when:\n  • General/company inquiries sent to info@ or via “Contact us”.\n  • Requests for information, introductions, basic pricing curiosity without concrete scope.\n  • Ambiguous external messages asking who to contact or how to proceed.\n  • Vendor outreach or collaboration ping that is high-level and not a concrete proposal.\n- other → true when the message clearly targets a specific department or workflow, e.g.:\n  • Sales/business with concrete scope: quotations, proposals, SOWs, specified budgets/timelines, client lead handovers.\n  • HR: recruitment, CV/resume, interviews, leave/attendance, payroll/salary certificates, policies/benefits/insurance.\n  • Finance: invoices, payments, POs.\n  • Projects/contracts/procurement, or other specialized internal functions.\n\nAR/EN keyword hints (not rules):\n- spam_or_irrelevant: خصم, خصومات, كوبون, عرض, حملة ترويجية, unsubscribe, newsletter, offer, sale, discount, coupon, promo, login alert, security alert\n- info: استفسار, معلومات, تواصل, كيف أتواصل, من المسؤول, info@, contact us, inquiry, question, request info, general inquiry\n- other: عرض سعر, عميل, زبون, مبيعات, lead, quotation, proposal, scope, budget, invoice, فاتورة, سداد, وظيفة, توظيف, سيرة, coop, عقد, مشتريات, مشروع\n\nOutput:\nReturn ONLY one of the three flags as true. No markdown, no extra text.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -6208,
+        3408
+      ],
+      "id": "9174c3ad-15bf-44b2-903e-91f675af50cb",
+      "name": "classify"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a strict email summarizer.\n\nAnalyze ONLY the email Subject and Body (Arabic or English). Ignore attachments, signatures, confidentiality footers, trackers, and long disclaimers.\n\nReturn EXACTLY ONE valid JSON object on ONE line (no markdown, no extra text) with this shape:\n{\"summary\":\"<concise summary>\"}\n\nRules:\n- Output must be ONE LINE JSON only.\n- Keep entities, numbers, dates, amounts, and named people/companies.\n- Remove greetings, signatures, and noise; normalize whitespace.\n- If Body is very long, keep the most relevant 1–3 sentences (≤ 300 characters).\n- Language: Arabic if input is Arabic, otherwise English.\n- If there is no meaningful content, return {\"summary\":\"---\"}.\n\nINPUT\nSubject: {{ $json[\"subject\"] || \"\" }}\nBody: {{ $json[\"text\"] || $json[\"body\"] || $json[\"plainText\"] || $json[\"snippet\"] || \"\" }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -6240,
+        2992
+      ],
+      "id": "a6394bfa-8965-4507-b6f1-8caf0afdfa6b",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "NormalizeAIOutput3": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        []
+      ]
+    },
+    "Gmail info2": {
+      "main": [
+        [
+          {
+            "node": "forward Department heads1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALES2": {
+      "main": [
+        [
+          {
+            "node": "repo SALES2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CONTRACT2": {
+      "main": [
+        [
+          {
+            "node": "repo CONTRACT2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo PROJECT2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo FINANCE2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo SALES2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo CONTRACT2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet11": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet15": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message17": {
+      "main": [
+        [
+          {
+            "node": "Add label to message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message18": {
+      "main": [
+        [
+          {
+            "node": "Add label to message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message19": {
+      "main": [
+        [
+          {
+            "node": "Add label to message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message20": {
+      "main": [
+        [
+          {
+            "node": "Add label to message21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message18": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message19": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message20": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message21": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Company Site11": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Notify Company Site12": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Notify Company Site13": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Notify Company Site14": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "PROJECT2": {
+      "main": [
+        [
+          {
+            "node": "repo PROJECT2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FINANCE2": {
+      "main": [
+        [
+          {
+            "node": "repo FINANCE2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet16": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet17": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "forward Department heads1": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "classify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "classify",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email forwarding",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email forwarding": {
+      "main": [
+        [
+          {
+            "node": "HR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SALES2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FINANCE2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PROJECT2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CONTRACT2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model15": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent11",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HR": {
+      "main": [
+        [
+          {
+            "node": "repo HR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message": {
+      "main": [
+        [
+          {
+            "node": "Add label to message6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message6": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Company Site1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "classify": {
+      "main": [
+        [
+          {
+            "node": "NormalizeAIOutput3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email forwarding",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "NormalizeAIOutput3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "62e76528-c4a4-4ed7-a64a-6efa396de493",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "94d8928ee7d246554afc9edcb506b2133b8c52e09d6ff7b96e153280f0958836"
+  },
+  "id": "fi6UYF1kImsCJ9Km",
+  "tags": []
+}

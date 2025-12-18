@@ -1,0 +1,5590 @@
+{
+  "name": "HR3final",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "attachment_0",
+        "options": {
+          "joinPages": true
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        960,
+        2368
+      ],
+      "id": "7a6283cd-689f-4bd9-ba9c-15311867d678",
+      "name": "Extract cv2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -896,
+        3680
+      ],
+      "id": "566b03a3-4e8d-4924-bf1c-0f0ad0188ea0",
+      "name": "General inquiries2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-11-20",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-11-20"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=###########################################"
+            }
+          ]
+        },
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1104,
+        2368
+      ],
+      "id": "720434fa-a08a-458f-b5a5-ab655387a28e",
+      "name": "Message a model11",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.myNewField = 1;\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        576,
+        2304
+      ],
+      "id": "a8cddd10-f109-4430-9cbc-a477144eadb3",
+      "name": "Code4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575ba42c-e1d5-4130-a5e0-6787d32d2221",
+              "leftValue": "={{$binary.attachment_0.mimeType}}\n",
+              "rightValue": "application/pdf\n",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c69d88bc-1829-4653-a330-4439cd46ecb7",
+              "leftValue": "={{$binary.attachment_0.fileExtension }}",
+              "rightValue": "pdf",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        2304
+      ],
+      "id": "8b97fe7c-6ae3-4141-bb97-6cdca382b095",
+      "name": "Filter8"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}",
+                    "rightValue": "Project Management",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "ea040b55-d64e-44f3-a1fa-53444592f5c4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Project"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b0be26c9-5840-495d-8a0d-052bceca9ad4",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": "Customer Service",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Customer Service"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7123e287-a605-43ca-a6e6-2809bd8af056",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": "Marketing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Marketing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3047c2f7-758e-4949-86cc-965a48dd6792",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }} \n{{ $json[\"CV FILE\"] }}",
+                    "rightValue": " Design",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Design"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8f2e3ec0-3c5b-4f76-9ecb-a1204e4148ad",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": "Editing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Editing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e5152fd0-0629-4504-a563-d708168d3100",
+                    "leftValue": "={{ $json['Field of expertise'] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": " Content Writing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Content Writing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1d71f8c7-f656-4241-927d-ba0fe9fe0c24",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": "Business ",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Business Development"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "23b2faf5-88dd-46a8-8a9e-1cbdfc95c12c",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": " Artificial Intelligence",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AI"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b7e1dca3-21a1-4534-a7a3-a95c4adb0f53",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": " Cybersecurity",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cybersecurity"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "65370b03-3140-4406-9e8c-aa02683f5892",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": "Finance",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Finance"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "58f91b85-74b3-4158-9f42-8842a960e6cf",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}",
+                    "rightValue": "Human Resources",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "HR"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7944fb62-e4da-443e-a36b-1b0b83135e6c",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}",
+                    "rightValue": "Contracts and Purchases",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Contracts and Purchases"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9d365a4a-d21e-4700-b05c-fe61a8a8983f",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}",
+                    "rightValue": "Sales",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sales"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "926b0b14-147f-44d1-9571-8e1b9a559656",
+                    "leftValue": "={{ $json.Education }}{{ $json['Field of expertise'] }}{{ $json[\"Years of experience\"] }}\n{{ $json[\"CV FILE\"] }}{{ $json.Skills }}{{ $json[\"Full name\"] }}{{ $json.Email }}{{ $json[\"Contact number\"] }}",
+                    "rightValue": "Education",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "public job application1"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2192,
+        2032
+      ],
+      "id": "29346379-9140-4624-beb8-77953e1d442a",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo-16k",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO-16K"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Please read the following resume and focus on the following fields:\n- Education\n- Work Experience\nResume:\n{{ $json.choices[0].message.content }}\n"
+            },
+            {
+              "content": "=Here is the candidate's resume: [Insert extracted resume text here]. Please extract the following information:\n\n1. Full name of the candidate :\n2. Email address :\n3. Education (Degree, field of study, etc.) \n4. Years of experience (If not available, use ---)\n5. Field of expertise (If not available, use ---)\n6. Skills \n7. Contact number\n\n{{ $json.choices[0].message.content }}\n\n{{ $json.message.content }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1472,
+        2368
+      ],
+      "id": "267c67de-4329-4909-a14a-3b809571aa74",
+      "name": "Message a model22",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.myNewField = 1;\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        576,
+        2016
+      ],
+      "id": "9b23e72e-aba1-416b-af17-9892092db2e4",
+      "name": "Code5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575ba42c-e1d5-4130-a5e0-6787d32d2221",
+              "leftValue": "={{$binary.attachment_0.mimeType}}\n",
+              "rightValue": "application/docx",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c69d88bc-1829-4653-a330-4439cd46ecb7",
+              "leftValue": "={{$binary.attachment_0.fileExtension }}",
+              "rightValue": "docx",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        2016
+      ],
+      "id": "d48b63e7-4031-4184-9f38-7f0440cef6b3",
+      "name": "Filter9"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $binary.attachment_0.fileExtension}} ",
+                    "rightValue": "docx",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "13758c80-281a-44bf-a2ae-98d66d4b5dc3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "word"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "87bfe4d9-5655-4058-9e8d-9c0b9c12c75d",
+                    "leftValue": "={{ $binary.attachment_0.fileExtension}}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        400,
+        2112
+      ],
+      "id": "4a97c293-f872-47ac-9606-3806e3c45e98",
+      "name": "Switch9"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        960,
+        2016
+      ],
+      "id": "355bd111-e2a9-42e7-9072-ece238a03eb6",
+      "name": "Upload file6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.parents[0] }}\n{{ $json[\"id\" ]}}{{ $json.data }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        2016
+      ],
+      "id": "d185f0b0-ca72-4be8-800d-893b6753eb14",
+      "name": "Get a document2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "={{ $json.mimeType }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1136,
+        2016
+      ],
+      "id": "af5b39e1-f663-4507-bdc0-99b1cdf70b65",
+      "name": "HTTP Request(conv docx)2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}\n",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        960,
+        2208
+      ],
+      "id": "e3c9e878-cac2-4850-ae08-dc78de6cb6ac",
+      "name": "Upload file7",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1856,
+        2224
+      ],
+      "id": "dea6d056-608c-4873-810a-acd82081c6cf",
+      "name": "Merge17"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c186a465-d622-4714-a588-584e54d87327",
+              "name": "=webViewLink",
+              "value": "={{ $json.webContentLink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        2208
+      ],
+      "id": "cd4179bd-c158-4569-af04-83dd9e012d6c",
+      "name": "Edit Fields12"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "90911545-57d8-498d-b110-22ea5e1c6060",
+              "name": "=CV FILE",
+              "value": "={{ $json.webViewLink }}",
+              "type": "string"
+            },
+            {
+              "id": "ba54e853-286c-449d-b9dd-af72aea5666b",
+              "name": "=Full name",
+              "value": "={{ $node['Code9'].json['Full name']}}",
+              "type": "string"
+            },
+            {
+              "id": "5ba1dabd-02db-48c6-bc7b-c982c6dc1d25",
+              "name": "=Email",
+              "value": "={{ $node['Code9'].json['Email']}}",
+              "type": "string"
+            },
+            {
+              "id": "3ed42123-7ece-40b7-a39f-f01a4e2117a9",
+              "name": "=Contact number",
+              "value": "={{ $node['Code9'].json['Contact number']}}",
+              "type": "string"
+            },
+            {
+              "id": "cc2ece98-59e7-4639-a4b2-6d4028423b8a",
+              "name": "=Education",
+              "value": "={{ $node['Code9'].json['Education']}}",
+              "type": "string"
+            },
+            {
+              "id": "a1f63c1e-2847-4ee7-8a43-547c6386c189",
+              "name": "=Years of experience",
+              "value": "={{ $node['Code9'].json['Years of experience']}}",
+              "type": "string"
+            },
+            {
+              "id": "68f26a8d-b69b-4a98-826d-f1638375f6ae",
+              "name": "=Field of expertise",
+              "value": "={{ $node['Code9'].json['Field of expertise']}}",
+              "type": "string"
+            },
+            {
+              "id": "0c7da9ed-6c59-4cee-b147-ffd834ee9a67",
+              "name": "=Skills",
+              "value": "={{ $node['Code9'].json['Skills']}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2016,
+        2224
+      ],
+      "id": "3280559f-e94c-420f-869e-c79f49085b42",
+      "name": "Edit Fields13",
+      "executeOnce": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let content = $json[\"message\"][\"content\"];  // محتوى الرسالة من OpenAI\n\n// استخراج البيانات باستخدام Regular Expressions (Regex)\nlet fullName = content.match(/1\\.\\s*Full name of the candidate:\\s*([^\\n]+)/);\nlet email = content.match(/2\\.\\s*Email address:\\s*([^\\n]+)/);\nlet education = content.match(/3\\.\\s*Education:\\s*([^\\n]+)/);\nlet yearsOfExperience = content.match(/4\\.\\s*Years of experience:\\s*([^\\n]+)/);\nlet fieldOfExpertise = content.match(/5\\.\\s*Field of expertise:\\s*([^\\n]+)/);\nlet skills = content.match(/6\\.\\s*Skills:\\s*([\\s\\S]*?)(?=\\n7\\.)/);\nlet contactNumber = content.match(/7\\.\\s*Contact number:\\s*([^\\n]+)/);\n\n\n// دالة مساعدة لتنظيف أي قيمة\nconst cleanValue = (val) => {\n  if (!val || !val[1]) return \"not found\";\n  const trimmed = val[1].trim();\n  return trimmed === \"\" || trimmed === \"---\" ? \"not found\" : trimmed;\n};\n\n// دالة خاصة لتنظيف المهارات لأنها تحتاج تنسيق\nconst cleanSkills = (val) => {\n  if (!val || !val[1]) return \"not found\";\n  const cleaned = val[1].replace(/\\n/g, ', ').trim();\n  return cleaned === \"\" || cleaned === \"---\" ? \"not found\" : cleaned;\n};\n\n// إرجاع القيم المستخرجة والمعدلة\nreturn {\n  \"Full name\": cleanValue(fullName),\n  \"Email\": cleanValue(email),\n  \"Education\": cleanValue(education),\n  \"Years of experience\": cleanValue(yearsOfExperience),\n  \"Field of expertise\": cleanValue(fieldOfExpertise),\n  \"Skills\": cleanSkills(skills),\n  \"Contact number\": cleanValue(contactNumber)\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        2368
+      ],
+      "id": "543ceae3-12b9-44fb-8cee-266c8c70001f",
+      "name": "Code9"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        1056
+      ],
+      "id": "76ee14b6-2527-48f1-a0b0-c57155aca4b5",
+      "name": "project management2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.myNewField = 1;\n\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -704,
+        3120
+      ],
+      "id": "c13d57e0-9f4b-45d4-b826-31864af6425b",
+      "name": "Code12"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-11-20",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-11-20"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Please review the subject and content  and file(resume) of the following email and determine if any of them contain words or phrases that indicate training. \nLook for keywords in subject and content  such as: \"training,\" \"cooperative training,\" \"field training,\" \"COOP,\" \"coop,\" and \"training.\" \n\nIf any of these indicators are present in the subject or content, extract and return the following information in a clear from massages, structured format:\n\n**Name:**  \n[Full name of the candidate if available]\n\n  \n- **Email:** [candidate email if available, if not found use 'not found']  \n- **Phone Number:** [candidate phone number if available, if not found use 'not found']\n\n**Education:**  \n[Education details if available]\n\n**Message ID:**  \n{{ $json['messageId'] }}\n\n---\n\nEmail Content:  \n{{ $json.text }}\n\nEmail Subject:  \n{{ $json.subject }}\n"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -544,
+        3120
+      ],
+      "id": "584144f8-c70d-4a23-84d1-c10d36e085ef",
+      "name": "Message a model26",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -224,
+        3120
+      ],
+      "id": "ee603d67-d0cf-4e7d-aa78-1dd05630188e",
+      "name": "Training7",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cf71e129-d03e-4f9f-8c34-6544952b1827",
+              "leftValue": "={{ $binary && Object.keys($binary).some(k => k.startsWith('attachment_')) }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1104,
+        2816
+      ],
+      "id": "49c02b62-762b-4533-8743-068fbc24a3a9",
+      "name": "If (found cv)3"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a strict JSON-based analyzer for HR department emails.\n\nAnalyze the subject and body of the email carefully (Arabic or English).  \nIgnore any attachments.\n\nYour only task: detect if the message represents **any kind of HR inquiry** — whether about policy, salary, benefits, leave, documents, certificates, attendance, training, or any general question directed to the HR department.\n\nThen, return ONLY ONE JSON object on ONE line, no markdown, no extra text, no explanations.\n\nThe JSON MUST follow this exact format:\n{\n  \"general_hr_inquiry\": true or false,\n  \"inquiry_summary\": \"a short readable summary of what the inquiry is about in Arabic (max 15 words)\"\n}\n\nRules:\n1. If the message contains a question, request, or clarification addressed to HR, set \"general_hr_inquiry\" to true.\n2. If it’s a notification, advertisement, system alert, or not directed to HR, set it to false.\n3. Be strict — do not assume unless clearly an HR-related inquiry.\n4. Always include \"inquiry_summary\" even if the result is false; summarize what the person seems to ask or mention.\n5. Do NOT output arrays, markdown, or extra keys.\n6. Output must be ONE LINE ONLY and valid JSON.\n\nExample outputs:\n{\"general_hr_inquiry\": true, \"inquiry_summary\": \"استفسار عن سياسات الحضور والانصراف\"}\n{\"general_hr_inquiry\": true, \"inquiry_summary\": \"طلب شهادة راتب من قسم الموارد البشرية\"}\n{\"general_hr_inquiry\": false, \"inquiry_summary\": \"إشعار أمني من Google لا يخص الموارد البشرية\"}\n"
+            },
+            {
+              "content": "=Subject :\n {{ $json.subject }}\n\nbody :\n{{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1232,
+        3680
+      ],
+      "id": "0e71484c-c3a6-4acb-94e8-c7dfbbc0e18e",
+      "name": "general2",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -688,
+        3680
+      ],
+      "id": "8e824400-46a8-48f6-b7ad-ce732a513174",
+      "name": "HTTP Request9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4096,
+        2096
+      ],
+      "id": "0c19ccfb-b60d-4842-910e-15c4bcde2836",
+      "name": "repo HR2"
+    },
+    {
+      "parameters": {
+        "numberInputs": 7
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3488,
+        1520
+      ],
+      "id": "6a34a4e0-9bb5-4817-a934-6f80f55a4c01",
+      "name": "Merge19"
+    },
+    {
+      "parameters": {
+        "numberInputs": 7
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3488,
+        2592
+      ],
+      "id": "8569a371-8648-418b-8f63-4dcfe16984b6",
+      "name": "Merge20"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3888,
+        2096
+      ],
+      "id": "ac9f06a9-2286-4efd-b1c4-5d005b3e6710",
+      "name": "Merge21"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4544,
+        2096
+      ],
+      "id": "1aa252e2-8b71-4756-80e2-5871d3b785e1",
+      "name": "HTTP Request10"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a strict JSON extractor for HR leave requests.\n\nAnalyze ONLY the email subject and body (Arabic or English). Ignore attachments.\nReturn EXACTLY ONE valid JSON object ON A SINGLE LINE with NO markdown, NO extra text, NO explanations.\n\nOutput keys (use EXACTLY these keys and this order; ALL values must be plain strings):\n{\n  \"employee_name\": \"\",\n  \"email\": \"\",\n  \"leave_type\": \"\",           // one of: \"annual\" | \"sick\" | \"unpaid\" | \"other\"\n  \"start_date\": \"\",           // ISO date YYYY-MM-DD\n  \"end_date\": \"\",             // ISO date YYYY-MM-DD\n  \"number_of_days\": \"\",       // integer as string (e.g., \"3\")\n  \"reason\": \"\",\n  \"manager_name\": \"\",\n  \"request_status\": \"\"        // \"non-urgent\" | \"urgent\"\n}\n\nSTRICT rules:\n1) Map Arabic terms to leave_type:\n   - annual: \"سنوية\" , \"اعتيادية\"\n   - sick: \"مرضية\"\n   - unpaid: \"بدون راتب\", \"غير مدفوعة\"\n   - other: anything else\n2) request_status:\n   - \"urgent\" if the text indicates urgency (e.g., \"عاجل\", \"طارئ\", \"ASAP\", \"immediately\", \"emergency\", \"today\", hospital, وفاة/جنازة).\n   - otherwise \"non-urgent\".\n3) Dates MUST be ISO format YYYY-MM-DD. If date is ambiguous or not found, use \"---\".\n4) number_of_days MUST be digits only as a string. If both start_date and end_date exist and days are not stated explicitly, compute calendar days inclusive (end - start + 1). If you cannot compute, use \"---\".\n5) email MUST look like a valid email (contains \"@\", domain). If not present, use \"---\".\n6) If any field is missing or unclear, use \"---\".\n7) Output ONLY the JSON object on ONE line. No extra keys. No arrays. No markdown.\n\nINPUT:\n{{ $json.text \n   ? $json.text \n   : ( $json.message && $json.message.content \n       ? $json.message.content \n       : ( $json.body || $json.plainText || $json.snippet || '' )\n     ) }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -1568,
+        4112
+      ],
+      "id": "753c8ad2-7884-4169-894f-c340a8a2d3e0",
+      "name": "Message a model28",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95ff1f11-a7d8-4352-aba4-96f40383534e",
+              "name": "EmployeeName",
+              "value": "={{ $('Title and content analysis').item.json.from.value[0].name }}",
+              "type": "string"
+            },
+            {
+              "id": "f8f8b400-39f0-47ce-b4ca-4261bd706d9c",
+              "name": "EmployeeEmail",
+              "value": "={{ $('Sort by title and content analysis').item.json.from.value[0].address }}",
+              "type": "string"
+            },
+            {
+              "id": "5e33b0fa-468e-4502-b342-1b5d288fb03d",
+              "name": "LeaveType",
+              "value": "={{ $json.leave_type }}",
+              "type": "string"
+            },
+            {
+              "id": "00ab9737-ec4c-452e-94e8-be84730230f9",
+              "name": "StartDate",
+              "value": "={{ $json.start_date }}",
+              "type": "string"
+            },
+            {
+              "id": "df6c24d1-9f89-41ec-aa8c-160a4793cb49",
+              "name": "EndDate",
+              "value": "={{ $json.end_date }}",
+              "type": "string"
+            },
+            {
+              "id": "b2519040-e978-4f8b-a568-d38fa651dd48",
+              "name": "DaysCount",
+              "value": "={{ $json.number_of_days }}",
+              "type": "string"
+            },
+            {
+              "id": "4f95fcb1-016c-4f50-823b-1d622531c06c",
+              "name": "Reason",
+              "value": "={{ $json.reason }}",
+              "type": "string"
+            },
+            {
+              "id": "23003957-ce4b-4246-8006-5e021d07316b",
+              "name": "RequestStatus",
+              "value": "={{ $json.request_status }}",
+              "type": "string"
+            },
+            {
+              "id": "3acb518b-185a-49db-85a9-ba165829de71",
+              "name": "ThreadId",
+              "value": "={{ $('Sort by title and content analysis').item.json.threadId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1024,
+        4112
+      ],
+      "id": "9373d3a8-1c8f-4a26-87ad-7d6aa2995971",
+      "name": "BuildLeaveTicket2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "42df1c6f-e3b4-4a8b-936b-27e9f535de71",
+              "leftValue": "={{ $json.EmployeeName.toBoolean() }}",
+              "rightValue": "={{ $json.EmployeeName }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "be6707c5-438c-4f99-9470-23f2e3496dbc",
+              "leftValue": "={{ $json.EmployeeEmail.toBoolean() }}",
+              "rightValue": "dsfaw",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "fe3d9cdc-b6ec-4141-a8bc-5c22078b6138",
+              "leftValue": "={{ $json.LeaveType.toBoolean() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "50800c94-2847-4214-b925-957b9ff3ccb1",
+              "leftValue": "={{ $json.StartDate.toBoolean() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "1081cd23-3334-410c-8844-a3b5c3b7342d",
+              "leftValue": "={{ $json.EndDate.toBoolean() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "be869760-d3dc-4229-8c72-7be86600e2d2",
+              "leftValue": "={{ $json.DaysCount.toBoolean()}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "92fcd810-301e-403d-aee4-77fcb888e1f5",
+              "leftValue": "={{ $json.Reason.toBoolean() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "16b9b944-f743-4576-8d29-7c97b61d3483",
+              "leftValue": "={{ $json.RequestStatus.toBoolean() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "84a355fa-5417-495b-b55f-ab7d01d90dc3",
+              "leftValue": "abvkagrifjMCAS:L",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        4112
+      ],
+      "id": "10a75748-cd62-4287-9685-96f58c69a50e",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -6368,
+        3920
+      ],
+      "id": "887b069a-05fd-45e0-b8b5-28e0ebda5120",
+      "name": "Gmail info2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "="
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4336,
+        4800
+      ],
+      "id": "058e1888-2765-48a9-bf2d-809f6a3431ed",
+      "name": "Mark a message as read10",
+      "webhookId": "05beca1d-4b32-4285-98c5-8922156a561b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3920,
+        3808
+      ],
+      "id": "595b53f1-a1c8-4fdd-8541-84ff6120a91d",
+      "name": "Append row in sheet14",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3712,
+        3808
+      ],
+      "id": "0b5eb5e3-b975-452e-aea9-c4513ddb4d65",
+      "name": "Reply to a message16",
+      "webhookId": "40aa41c0-116d-441a-a56a-a028b49c4e82",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        3808
+      ],
+      "id": "3028c78c-ba5d-4730-9535-ce8104253852",
+      "name": "Add label to message17",
+      "webhookId": "98f2da38-a5bc-4f83-9a85-8b07133f6f6f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3296,
+        3808
+      ],
+      "id": "7e7f5c44-0898-4fc3-8717-13f02ea5f19c",
+      "name": "Notify Company Site10"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4336,
+        3808
+      ],
+      "id": "5ce9a469-d743-454e-8b8d-7b72f9d18593",
+      "name": "Info2",
+      "webhookId": "5f51eeef-41aa-4e69-b415-c3a2ad3e5240",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4128,
+        3808
+      ],
+      "id": "7934afcb-1469-416c-b743-b8aceb64fd6a",
+      "name": "repo Info2"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "مرحبا",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4336,
+        4000
+      ],
+      "id": "9ec31beb-6b63-419d-9e0f-a44618a7837c",
+      "name": "SALES2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4336,
+        4592
+      ],
+      "id": "4e3044e5-2c0b-4b3e-9500-19e770a33998",
+      "name": "CONTRACT2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4128,
+        4400
+      ],
+      "id": "d912964f-15fc-47b3-a2c8-0f36fce02f13",
+      "name": "repo PROJECT2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4128,
+        4192
+      ],
+      "id": "83bb33f1-4a89-4f7f-9446-f181746b8a1e",
+      "name": "repo FINANCE2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4128,
+        4000
+      ],
+      "id": "811fb49c-7067-47cf-bbf6-93a7e87c7996",
+      "name": "repo SALES2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4128,
+        4592
+      ],
+      "id": "8bdb3fb3-adf2-42ae-b7d4-0829cdf78f96",
+      "name": "repo CONTRACT2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3920,
+        4000
+      ],
+      "id": "1f65147c-ab46-48a1-99bc-174b17572c60",
+      "name": "Append row in sheet11",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3920,
+        4192
+      ],
+      "id": "6c80ca03-e842-44af-881a-5374f2360089",
+      "name": "Append row in sheet15",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3712,
+        4000
+      ],
+      "id": "21670762-489d-4667-82d8-635c5f03ce0a",
+      "name": "Reply to a message17",
+      "webhookId": "15f22f26-8d4a-4cc8-8734-62f3dbe0a8e8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3712,
+        4192
+      ],
+      "id": "84c8aecb-d11e-441d-8dd9-9396bace057d",
+      "name": "Reply to a message18",
+      "webhookId": "cd37f156-a2ea-45ac-b134-68586dc42ef3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3712,
+        4400
+      ],
+      "id": "eb2155de-7dd5-4347-82bf-07daaa6caca5",
+      "name": "Reply to a message19",
+      "webhookId": "e0f44c5d-9537-4cc9-93ee-73c328e10df0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3712,
+        4592
+      ],
+      "id": "314ef5ce-1cb9-496d-88b2-5be48dbf75d6",
+      "name": "Reply to a message20",
+      "webhookId": "7e4006b3-09c4-42d4-b14f-53c7ec75b1d0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        4000
+      ],
+      "id": "54f4a53f-e4f7-4d32-8558-411741749134",
+      "name": "Add label to message18",
+      "webhookId": "b8b258ae-516d-436a-8c1b-a6506ad7e76c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        4192
+      ],
+      "id": "2dd1fbcf-13a9-46ed-b1ef-3faf4460eb0d",
+      "name": "Add label to message19",
+      "webhookId": "1535344f-bc06-43f5-9723-fc17367809d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        4400
+      ],
+      "id": "cb985b2c-a92a-417e-b79f-a40503816c76",
+      "name": "Add label to message20",
+      "webhookId": "9d933998-7c34-4da5-a797-404cee53f79f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        4592
+      ],
+      "id": "d859f9e4-ff92-4649-ae94-983e6c5acde6",
+      "name": "Add label to message21",
+      "webhookId": "02f2a0fb-4aea-4a87-845b-e9931390d504",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3296,
+        4000
+      ],
+      "id": "41574d98-f969-4dce-ae22-b7be3dcbf716",
+      "name": "Notify Company Site11"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3296,
+        4192
+      ],
+      "id": "57109964-77c6-4a12-a056-1c2fd6b098e5",
+      "name": "Notify Company Site12"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3296,
+        4400
+      ],
+      "id": "07ad064b-97d8-409b-8212-b47f8be4de9d",
+      "name": "Notify Company Site13"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3296,
+        4592
+      ],
+      "id": "09f6e1f0-82e0-4219-bbf8-1398345a125b",
+      "name": "Notify Company Site14"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "مرحبا ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4336,
+        4400
+      ],
+      "id": "9e174163-85d5-4f0d-a2a6-e0556de973b4",
+      "name": "PROJECT2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -4336,
+        4192
+      ],
+      "id": "2360aa08-5e3a-4dba-986e-7ebde248694c",
+      "name": "FINANCE2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3920,
+        4592
+      ],
+      "id": "c08d1a8a-4b56-4c30-a430-85164c087d25",
+      "name": "Append row in sheet16",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3920,
+        4400
+      ],
+      "id": "c1b6cbe0-c63a-4d6c-9c38-97d8291fdd9e",
+      "name": "Append row in sheet17",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "61be9c2f-5bb0-4159-aa64-6be77b1b24d8",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cd94946e-edb0-4e1f-ab78-d22c9d4417f0",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "f2d6c23e-06f7-4427-a687-872068fa6625",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5cded0fe-c473-497c-8bf0-959a9a892d83",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -6192,
+        3920
+      ],
+      "id": "558da687-42ce-4403-bc26-b0abb92ff51c",
+      "name": "forward Department heads1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2672,
+        3536
+      ],
+      "id": "62858f37-e0dd-4c3b-9b32-995c3fa4e05f",
+      "name": "OpenAI Chat Model7",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -6000,
+        4224
+      ],
+      "id": "1a2fe92c-cd56-436b-a9dd-2382fbd0fe41",
+      "name": "OpenAI Chat Model8",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -4928,
+        4560
+      ],
+      "id": "098947bc-e2d9-4fb3-b9ab-0874d778d8c3",
+      "name": "OpenAI Chat Model9",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "=={{ ($json[\"subject\"] || \"\") + \" \" + ($json[\"text\"] || $json[\"body\"] || \"\") }}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "hr"
+            },
+            {
+              "category": "other"
+            },
+            {
+              "category": "spam_or_irrelevant"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "=You are an enterprise email router for a marketing company. Classify an email as:\n- hr (Human Resources)\n- other (non-HR departments)\n- spam_or_irrelevant (ads, discounts, bulk promos, generic notifications, security/login alerts)\n\nAnalyze ONLY Subject and Body; ignore attachments and signatures.\n\nReturn EXACTLY one JSON object with THREE boolean flags\nSet EXACTLY ONE flag to true (mutually exclusive). No extra text or markdown.\n\nGuidelines:\n- spam_or_irrelevant: promotions, coupons, discounts, “limited offer”, “save %”, cold marketing blasts, newsletters not HR-related, Google/security/login alerts, generic system notices without business value.\n- hr: recruitment, CV/resume, jobs, internships/COOP/Tamheer, interviews, onboarding/offboarding, leave/attendance, payroll/salary certificates, grievances/discipline, HR policies/benefits/insurance, employment verification/experience certificates.\n- other: sales/clients/leads, marketing/campaigns, proposals/quotations, finance/invoices/payments, projects/timelines, contracts & procurement, general info@ inquiries, external platforms.\n\nAR/EN keyword hints (not rules):\n- spam_or_irrelevant: خصم, خصومات, كوبون, عرض, حملة ترويجية, unsubscribe, newsletter, offer, sale, discount, coupon, promo, login alert, security alert.\n- hr: وظيفة, توظيف, سيرة, CV, resume, تدريب, تمهير, coop, مقابلة, إجازة, غياب, راتب, تعريف, شهادة خبرة, تأمين, بدلات, شكاوى, تظلم.\n- other: عرض سعر, فاتورة, سداد, مشروع, عقد, مشتريات, حملة, إعلان, منصة, social, info inquiry.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -5920,
+        4016
+      ],
+      "id": "a6374b7b-4aa1-4db1-9236-4ea52485ca31",
+      "name": "Title and content analysis"
+    },
+    {
+      "parameters": {
+        "categories": {
+          "categories": [
+            {
+              "category": "info ",
+              "description": "public email"
+            },
+            {
+              "category": "sales",
+              "description": "sales privacy "
+            },
+            {
+              "category": "finance ",
+              "description": "finance privacy "
+            },
+            {
+              "category": "project ",
+              "description": "project privacy "
+            },
+            {
+              "category": "contract",
+              "description": "contract privacy "
+            },
+            {
+              "category": "spam",
+              "description": "It has nothing to do with any email. It is considered a spam email such as advertisements, offers, and discounts."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -4848,
+        4224
+      ],
+      "id": "fa8be997-4c61-47b6-ab7e-53561c31c581",
+      "name": "Email forwarding"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json[\"subject\"] + \" \" + $json[\"text\"] + \" \" + $json[\"date\"]}}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "job application "
+            },
+            {
+              "category": "training"
+            },
+            {
+              "category": "interview"
+            },
+            {
+              "category": "general_hr_inquiry"
+            },
+            {
+              "category": "leave_request"
+            },
+            {
+              "category": "spam_or_irrelevant"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "###########################################################"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -2848,
+        3104
+      ],
+      "id": "c13dd174-f053-479a-8aba-29a36908fcb3",
+      "name": "Sort by title and content analysis",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2480,
+        3424
+      ],
+      "id": "778baf24-86e6-4a3d-a934-c811f64cef4a",
+      "name": "Mark a message as read",
+      "webhookId": "a21c69c6-4c58-4fac-bf43-cf44b2875ece",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        1216
+      ],
+      "id": "737afc43-1800-49a5-8121-7784882a2c4d",
+      "name": "call center",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        1376
+      ],
+      "id": "9e95845b-6b39-4d06-9259-0b5a51c09837",
+      "name": "marketing",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        1552
+      ],
+      "id": "3c0cfa1a-aada-4db0-acfb-3a88b496611b",
+      "name": "design",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        1696
+      ],
+      "id": "0dad4f83-42f4-4a36-b5ef-88f544f7ebe7",
+      "name": "Editor",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        1856
+      ],
+      "id": "6eac46bd-e588-42e6-9130-b8d4473bc3d4",
+      "name": "Content writer",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2016
+      ],
+      "id": "34b35d52-a265-438d-9ace-7d5e1f509cb7",
+      "name": "Business development",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2176
+      ],
+      "id": "f0a46f82-5673-4acd-9f27-2c5ef6a41d5f",
+      "name": "AI",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2336
+      ],
+      "id": "594102df-f8a1-4221-9102-8769cb3747b3",
+      "name": "Cyber security",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2496
+      ],
+      "id": "c991752f-4c91-4834-aca1-5fe5a7ac11f0",
+      "name": "Financial",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2656
+      ],
+      "id": "14601384-8cb9-4c55-8d4d-22b12302aa9f",
+      "name": "HR",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2816
+      ],
+      "id": "6b0cedb2-7d47-44db-91bf-dbc64000e179",
+      "name": "Contracts and Purchases",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        2992
+      ],
+      "id": "f46f3d3b-4970-4f5a-a6d4-500e524aa9bd",
+      "name": "sales",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2784,
+        3136
+      ],
+      "id": "baf68bca-c1c6-4628-bf51-27f81a96fee3",
+      "name": "public job application",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        4304,
+        2096
+      ],
+      "id": "5efa45c5-810a-4f6f-adc0-1a9dd6fccdac",
+      "name": "Mark a message as read1",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        2896
+      ],
+      "id": "4837484a-3ebf-421f-96fb-65aa7a3ad501",
+      "name": "repo HR"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        2896
+      ],
+      "id": "2c7b9571-f592-4428-8507-c6f5087009c4",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        768,
+        2896
+      ],
+      "id": "96ef9c10-a66b-469b-8642-39b80bdaeb9f",
+      "name": "Mark a message as read2",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        3120
+      ],
+      "id": "da0044a3-8cf8-49b3-9f5b-c62c3f219ec5",
+      "name": "repo HR3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        384,
+        3120
+      ],
+      "id": "c4de29b1-ccc9-43ef-8ff3-3334e75912f1",
+      "name": "HTTP Request12"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        3120
+      ],
+      "id": "57cb8410-ccb1-4461-9454-00101d943772",
+      "name": "Mark a message as read3",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -464,
+        3680
+      ],
+      "id": "2a9bfefe-5ed9-44f4-a708-52aaefa2880b",
+      "name": "repo HR5"
+    },
+    {
+      "parameters": {
+        "url": "إشعار داخلي طلب توظيف.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -64,
+        3680
+      ],
+      "id": "61bfddf0-2c3a-4f36-8d57-0853d4621978",
+      "name": "HTTP Request14"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        3680
+      ],
+      "id": "f8e83308-1f26-4166-a270-68a906a9de68",
+      "name": "Mark a message as read5",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -384,
+        4016
+      ],
+      "id": "2fe8f18b-4528-4d32-b46e-265a3179dee6",
+      "name": "repo HR6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        48,
+        4016
+      ],
+      "id": "fa575ba9-69db-44b4-9bbd-a864665039e4",
+      "name": "HTTP Request15"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -144,
+        4016
+      ],
+      "id": "0c4c90c3-224d-4d1d-91ed-34a02396e168",
+      "name": "Mark a message as read6",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -5488,
+        4368
+      ],
+      "id": "26fbdde9-23f5-428b-8bbc-9dd9a8e7b269",
+      "name": "Mark a message as read7",
+      "webhookId": "c05d5a2f-c845-4b70-badf-f9ac65f3e077",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c186a465-d622-4714-a588-584e54d87327",
+              "name": "=webViewLink",
+              "value": "={{ $json.webContentLink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -512,
+        2896
+      ],
+      "id": "a50829a8-835c-45d5-bac8-a1022c00fd5a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-11-20",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-11-20"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Please read the following resume and focus on the following areas:\n- Education\nResume:\n{{ $json.message.content }}"
+            },
+            {
+              "content": "=You are a strict and rule-based information extractor specialized in analyzing resumes (CVs). \nYou must return ONLY ONE valid JSON object, formatted on a single line, with NO explanations, NO markdown, and NO extra text.\n\nYour task:\nRead the text in INPUT (it may be in Arabic or English). Extract the requested information accurately and consistently.\n\nRules:\n1. Output MUST be a single valid JSON object.\n2. Use EXACTLY these keys, in this order:\n   \"Full name\", \"Email\", \"Education\", \"Years of experience\", \"Field of expertise\", \"Skills\", \"Contact number\"\n3. Each key value MUST be a plain string (not a list or array).\n4. If multiple items exist (e.g., several degrees or skills), join them in one string using \"; \".\n5. If a value is not found, write \"---\".\n6. Do NOT include any commentary, extra text, explanations, or markdown.\n7. Return ONLY the JSON, on one line.\n\nINPUT (Resume text):\n{{ $json.message?.content || $json.text || '' }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -144,
+        2656
+      ],
+      "id": "743fee82-cb80-49ee-ae73-460782e1a31f",
+      "name": "Message a model27",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "attachment_0",
+        "options": {
+          "joinPages": true
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        2656
+      ],
+      "id": "df43ee30-296a-4145-9852-7d6fb2e2e32d",
+      "name": "Extract cv"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-11-20",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-11-20"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Please read the following resume and focus on the following fields:\n- Education\nResume:{{ $json.text }}"
+            },
+            {
+              "content": "=Here is the candidate's resume: [Insert extracted resume text here]. Please extract the following information:\n\n1. Full name of the candidate :\n2. Email address :\n3. Education (Degree, field of study, etc.) \n4. Years of experience (If not available, use ---)\n5. Field of expertise (If not available, use ---)\n6. Skills (If not available, use ---)\n7. Contact number\n\n\n{{ $json.message.content }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -464,
+        2656
+      ],
+      "id": "d0c03cc0-f261-4d42-8945-26c1b70cca59",
+      "name": "Message a model29",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        336,
+        2896
+      ],
+      "id": "3cabb984-f9b9-4ad4-af0d-5a6ef436bc0a",
+      "name": "Training",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575ba42c-e1d5-4130-a5e0-6787d32d2221",
+              "leftValue": "={{$binary.attachment_0.mimeType}}\n",
+              "rightValue": "application/pdf|",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c69d88bc-1829-4653-a330-4439cd46ecb7",
+              "leftValue": "={{$binary.attachment_0.fileExtension }}",
+              "rightValue": "pdf",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -848,
+        2800
+      ],
+      "id": "acd6e4a7-1d8c-410b-943f-05ec1721faeb",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/folders/1SADyOjy_gV1U0Vu-6GjZWhNX1UqzOJ9c",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://drive.google.com/drive/folders/1SADyOjy_gV1U0Vu-6GjZWhNX1UqzOJ9c",
+          "__regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -672,
+        2896
+      ],
+      "id": "14e73ff8-74f3-4895-83aa-6c7e3984e8f1",
+      "name": "Upload file9",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// n8n Code node (runOnceForEachItem) — robust CV extractor\n\n// 1) helpers\nconst asString = (v) => {\n  if (v == null) return '---';\n  if (Array.isArray(v)) return v.filter(x => x != null && `${x}`.trim() !== '').join('; ') || '---';\n  if (typeof v === 'object') return Object.values(v).join('; ') || '---';\n  const s = String(v).trim();\n  return s === '' ? '---' : s;\n};\n\nconst firstNonEmpty = (...vals) => {\n  for (const v of vals) {\n    if (v && String(v).trim() !== '') return v;\n  }\n  return '';\n};\n\n// 2) read upstream item\nconst it = $json;\n\n// 3) direct JSON-from-LLM (jsonOutput: true) — keys already on root?\nconst directKeys = [\"Full name\",\"Email\",\"Education\",\"Years of experience\",\"Field of expertise\",\"Skills\",\"Contact number\"];\nconst hasDirect = directKeys.some(k => Object.prototype.hasOwnProperty.call(it, k));\nif (hasDirect) {\n  return {\n    \"Full name\": asString(it[\"Full name\"]),\n    \"Email\": asString(it[\"Email\"]),\n    \"Education\": asString(it[\"Education\"]),\n    \"Years of experience\": asString(it[\"Years of experience\"]),\n    \"Field of expertise\": asString(it[\"Field of expertise\"]),\n    \"Skills\": asString(it[\"Skills\"]),\n    \"Contact number\": asString(it[\"Contact number\"]),\n  };\n}\n\n// 4) safely get text content from multiple possible fields\nconst content = firstNonEmpty(\n  it.text,\n  (it.message && it.message.content),\n  it.body,\n  it.plainText,\n  it.snippet,\n  it.content\n);\n\n// 5) try to parse JSON out of the content (handles smart quotes)\nfunction tryParseJson(str) {\n  if (!str) return null;\n  let s = str.trim();\n\n  // Extract inner {...} if there's wrapping text\n  const first = s.indexOf('{');\n  const last  = s.lastIndexOf('}');\n  if (first !== -1 && last !== -1 && last > first) {\n    s = s.slice(first, last + 1);\n  }\n\n  // Normalize smart quotes\n  s = s\n    .replace(/\\u201C|\\u201D/g, '\"')\n    .replace(/\\u2018|\\u2019/g, \"'\");\n\n  try { return JSON.parse(s); } catch { return null; }\n}\n\nconst parsed = tryParseJson(content);\nif (parsed && typeof parsed === 'object') {\n  return {\n    \"Full name\": asString(parsed[\"Full name\"]),\n    \"Email\": asString(parsed[\"Email\"]),\n    \"Education\": asString(parsed[\"Education\"]),\n    \"Years of experience\": asString(parsed[\"Years of experience\"]),\n    \"Field of expertise\": asString(parsed[\"Field of expertise\"]),\n    \"Skills\": asString(parsed[\"Skills\"]),\n    \"Contact number\": asString(parsed[\"Contact number\"]),\n  };\n}\n\n// 6) fallback: regex extraction from plain text (labels 1..7 as in your prompt)\nconst getMatch = (re) => {\n  const m = content && content.match(re);\n  return m ? m[1].trim() : '';\n};\n\nconst fullName          = getMatch(/1\\.\\s*Full name of the candidate\\s*:\\s*([^\\n\\r]+)/i);\nconst email             = getMatch(/2\\.\\s*Email address\\s*:\\s*([^\\n\\r]+)/i);\nconst education         = getMatch(/3\\.\\s*Education\\s*\\(.*?\\)\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*4\\.)/i) || getMatch(/3\\.\\s*Education\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*4\\.)/i);\nconst yearsOfExperience = getMatch(/4\\.\\s*Years of experience\\s*\\(.*?\\)\\s*:\\s*([^\\n\\r]+)/i) || getMatch(/4\\.\\s*Years of experience\\s*:\\s*([^\\n\\r]+)/i);\nconst fieldOfExpertise  = getMatch(/5\\.\\s*Field of expertise\\s*\\(.*?\\)\\s*:\\s*([^\\n\\r]+)/i) || getMatch(/5\\.\\s*Field of expertise\\s*:\\s*([^\\n\\r]+)/i);\nconst skillsBlock       = getMatch(/6\\.\\s*Skills\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*7\\.)/i);\nconst contactNumber     = getMatch(/7\\.\\s*Contact number\\s*:\\s*([^\\n\\r]+)/i);\n\n// Normalize multi-line fields by joining with \"; \"\nconst normalizeMultiline = (txt) => {\n  if (!txt) return '';\n  return txt\n    .split(/\\r?\\n+/)\n    .map(s => s.trim())\n    .filter(Boolean)\n    .join('; ');\n};\n\nreturn {\n  \"Full name\": asString(fullName),\n  \"Email\": asString(email),\n  \"Education\": asString(normalizeMultiline(education)),\n  \"Years of experience\": asString(yearsOfExperience || '---'),\n  \"Field of expertise\": asString(fieldOfExpertise),\n  \"Skills\": asString(normalizeMultiline(skillsBlock)),\n  \"Contact number\": asString(contactNumber),\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        2656
+      ],
+      "id": "ff4fb136-c699-4bdd-ba42-563f149ac712",
+      "name": "Code10"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (Run Once for Each Item)\n// Robust leave-request extractor — returns ONLY the target fields on root:\n// employee_name, email, leave_type, start_date, end_date, number_of_days, reason, manager_name, request_status\n\n// 1) Helpers\nconst asString = (v) => {\n  if (v == null) return '---';\n  if (Array.isArray(v)) return v.map(x => (x == null ? '' : String(x).trim())).filter(Boolean).join('; ') || '---';\n  if (typeof v === 'object') return Object.values(v).map(x => (x == null ? '' : String(x).trim())).filter(Boolean).join('; ') || '---';\n  const s = String(v).trim();\n  return s === '' ? '---' : s;\n};\n\n// حاول استخراج نص من عدة مفاتيح محتملة\nconst firstNonEmpty = (...vals) => {\n  for (const v of vals) {\n    if (v && String(v).trim() !== '') return v;\n  }\n  return '';\n};\n\n// تحويل أي تاريخ إلى ISO YYYY-MM-DD إن أمكن\nfunction toISO(dateStr) {\n  const s = asString(dateStr);\n  if (s === '---') return '---';\n  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(s)) return s;\n  const d = new Date(s);\n  if (isNaN(d.getTime())) return '---';\n  const yyyy = d.getUTCFullYear();\n  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');\n  const dd = String(d.getUTCDate()).padStart(2, '0');\n  return `${yyyy}-${mm}-${dd}`;\n}\n\n// فرق الأيام بشكل شامل (يشمل اليومين)\nfunction inclusiveDaysISO(startISO, endISO) {\n  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(startISO) || !/^\\d{4}-\\d{2}-\\d{2}$/.test(endISO)) return '---';\n  const a = new Date(startISO + 'T00:00:00Z').getTime();\n  const b = new Date(endISO + 'T00:00:00Z').getTime();\n  if (isNaN(a) || isNaN(b) || b < a) return '---';\n  return String(Math.round((b - a) / (24 * 3600 * 1000)) + 1);\n}\n\n// محاولة قراءة JSON من نص قد يحتوي ضجيج قبل/بعد {}\nfunction tryParseJsonFromString(str) {\n  if (!str) return null;\n  let s = String(str).trim();\n  try { return JSON.parse(s); } catch {}\n  const first = s.indexOf('{');\n  const last  = s.lastIndexOf('}');\n  if (first !== -1 && last !== -1 && last > first) {\n    s = s.slice(first, last + 1)\n      .replace(/\\u201C|\\u201D/g, '\"')\n      .replace(/\\u2018|\\u2019/g, \"'\");\n    try { return JSON.parse(s); } catch {}\n  }\n  return null;\n}\n\n// 2) اقرأ العنصر\nconst it = $json;\n\n// 3) إن كانت الحقول موجودة مباشرة على الجذر (jsonOutput من OpenAI)\nconst keys = [\"employee_name\",\"email\",\"leave_type\",\"start_date\",\"end_date\",\"number_of_days\",\"reason\",\"manager_name\",\"request_status\"];\nconst hasDirect = keys.every(k => Object.prototype.hasOwnProperty.call(it, k));\nif (hasDirect) {\n  // طبّع القيم واحسب الأيام إن لزم\n  let startISO = toISO(it.start_date);\n  let endISO   = toISO(it.end_date);\n  let days     = asString(it.number_of_days);\n  if (days === '---' || !/^\\d+$/.test(days)) {\n    const calc = inclusiveDaysISO(startISO, endISO);\n    if (calc !== '---') days = calc;\n  }\n  return {\n    employee_name:  asString(it.employee_name),\n    email:          asString(it.email),\n    leave_type:     asString(it.leave_type),\n    start_date:     startISO,\n    end_date:       endISO,\n    number_of_days: days,\n    reason:         asString(it.reason),\n    manager_name:   asString(it.manager_name),\n    request_status: asString(it.request_status),\n  };\n}\n\n// 4) وإلا… حاول استرجاع JSON من content أو مصادر نصية أخرى\nconst content = firstNonEmpty(\n  it.content,\n  it.text,\n  (it.message && it.message.content),\n  it.body,\n  it.plainText,\n  it.snippet\n);\n\nlet parsed = null;\n\n// إن كان content كائن جاهز\nif (content && typeof content === 'object') {\n  parsed = content;\n} else {\n  // إن كان نص، حاول استخراج JSON منه\n  parsed = tryParseJsonFromString(content);\n}\n\n// 5) لو فشل، جرّب أي حقل نصي آخر ضمن الـ item\nif (!parsed || typeof parsed !== 'object') {\n  for (const [k, v] of Object.entries(it)) {\n    if (typeof v === 'string') {\n      const p = tryParseJsonFromString(v);\n      if (p && typeof p === 'object') { parsed = p; break; }\n    }\n  }\n}\n\n// 6) شكّل الخرج النهائي\nconst employee_name  = asString(parsed && parsed.employee_name);\nconst email          = asString(parsed && parsed.email);\nconst leave_type     = asString(parsed && parsed.leave_type);\nconst startISO       = toISO(parsed && parsed.start_date);\nconst endISO         = toISO(parsed && parsed.end_date);\nlet number_of_days   = asString(parsed && parsed.number_of_days);\nconst reason         = asString(parsed && parsed.reason);\nconst manager_name   = asString(parsed && parsed.manager_name);\nconst request_status = asString(parsed && parsed.request_status);\n\n// احسب الأيام إن كانت ناقصة أو غير رقمية\nif (number_of_days === '---' || !/^\\d+$/.test(number_of_days)) {\n  const calc = inclusiveDaysISO(startISO, endISO);\n  if (calc !== '---') number_of_days = calc;\n}\n\n// 7) أعد الحقول فقط\nreturn {\n  employee_name,\n  email,\n  leave_type,\n  start_date:     startISO,\n  end_date:       endISO,\n  number_of_days,\n  reason,\n  manager_name,\n  request_status,\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1216,
+        4112
+      ],
+      "id": "9f3a5722-ac3a-4efe-a12e-0648902906b9",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.EmployeeEmail }}",
+        "subject": "نقص في معلومات الطلب",
+        "message": "من فضلك اكمل جميع البيانات بالترتيب هذا  employee_name, employee_email,leave_type (annual|sick|unpaid|other), start_date, end_date, days_count, reason, urgency (low|med|high)",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -624,
+        4208
+      ],
+      "id": "04bd24e5-a305-4ba6-b4bc-65b03fe09e7a",
+      "name": "Send a message",
+      "webhookId": "61ced3e2-c458-4138-8463-2a4a9c1d87a8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -384,
+        4208
+      ],
+      "id": "77c14f69-a0a4-458e-9c3a-fd18b037ba33",
+      "name": "repo HR7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        48,
+        4208
+      ],
+      "id": "0397cd8f-a77c-49a4-9f27-08e5c68ffefe",
+      "name": "HTTP Request16"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -144,
+        4208
+      ],
+      "id": "3890747e-7fad-4c26-822f-4ab0d11ca230",
+      "name": "Mark a message as read8",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        3680
+      ],
+      "id": "351a9172-9332-4082-a92c-d9f13ed4d717",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        3872
+      ],
+      "id": "b4d7728e-88bd-449f-9c16-9343fd86b827",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        304,
+        3968
+      ],
+      "id": "b41f21a0-4cca-451b-9bfd-18df5d0c91f2",
+      "name": "AI Agent6"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        4112
+      ],
+      "id": "7cb1b644-0b9d-42c5-9056-0e91205a8429",
+      "name": "OpenAI Chat Model10",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        4256
+      ],
+      "id": "3067dd73-fe77-4d62-9002-fa0653cd3d6f",
+      "name": "AI Agent7"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        4400
+      ],
+      "id": "bf81b4a0-3c4e-4dc8-a37e-d13bfcb3b65f",
+      "name": "OpenAI Chat Model11",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        3120
+      ],
+      "id": "ab953363-df2f-4acd-8e5d-783dccd1b6a3",
+      "name": "AI Agent8"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        3312
+      ],
+      "id": "3846514c-6b55-4516-9787-8b2afb06bfa1",
+      "name": "OpenAI Chat Model12",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1152,
+        2896
+      ],
+      "id": "e38f8f07-2792-43f0-9a78-3a1ad5f366ee",
+      "name": "AI Agent9"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        3088
+      ],
+      "id": "c27238ee-9b79-49be-a3b7-2a18ea9f6f50",
+      "name": "OpenAI Chat Model13",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        4752,
+        2096
+      ],
+      "id": "bd12f473-f8e0-42e4-999c-60ea431b2c03",
+      "name": "AI Agent10"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        4736,
+        2288
+      ],
+      "id": "468cd528-74ef-407e-aed4-684fdea88418",
+      "name": "OpenAI Chat Model14",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -2752,
+        4240
+      ],
+      "id": "685d221e-92ed-41aa-9d4b-2c16fd4461ce",
+      "name": "AI Agent11"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2768,
+        4432
+      ],
+      "id": "2ce4612a-514c-4365-a0ae-2860096393a9",
+      "name": "OpenAI Chat Model15",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2960,
+        4192
+      ],
+      "id": "4dffd77a-d21d-45af-a483-4d8c704b639e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        3568
+      ],
+      "id": "d4a54c5f-b8d2-4dc1-82a6-31ab79a3e0eb",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        3376
+      ],
+      "id": "fdd0f735-bd8d-43ba-acfe-ad2357da0a2a",
+      "name": "AI Agent4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Sort by title and content analysis').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -512,
+        3360
+      ],
+      "id": "f465eef4-4daf-4b7a-bc51-3650db964a86",
+      "name": "Mark a message as read4",
+      "webhookId": "d4b7a2ab-c87f-47b8-afe6-da3080f1268e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -336,
+        3360
+      ],
+      "id": "80c062cd-dcf4-4593-b918-fd4401b4b9c0",
+      "name": "HTTP Request13"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.from }}",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.date }}",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "type email from classifi",
+              "value": "={{ $('Sort by title and content analysis').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "={{ $('Sort by title and content analysis').item.json.headers.to }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -720,
+        3360
+      ],
+      "id": "67b0ad49-ad2c-425f-b5ac-ff82becba935",
+      "name": "repo HR4"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -928,
+        3360
+      ],
+      "id": "7d67d820-5199-4ba2-b96c-ca1fc86142ad",
+      "name": "Append row in sheet6",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -624,
+        4016
+      ],
+      "id": "2195361a-f2bc-46e4-a3e2-24571871789a",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Extract cv2": {
+      "main": [
+        [
+          {
+            "node": "Message a model11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "General inquiries2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model11": {
+      "main": [
+        [
+          {
+            "node": "Message a model22",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Filter8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter8": {
+      "main": [
+        [
+          {
+            "node": "Extract cv2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload file7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "project management2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "call center",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "marketing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "design",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Editor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Content writer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Business development",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cyber security",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Financial",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Contracts and Purchases",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "sales",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "public job application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model22": {
+      "main": [
+        [
+          {
+            "node": "Code9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "Filter9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter9": {
+      "main": [
+        [
+          {
+            "node": "Upload file6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch9": {
+      "main": [
+        [
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request(conv docx)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request(conv docx)2": {
+      "main": [
+        [
+          {
+            "node": "Get a document2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file7": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge17": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields12": {
+      "main": [
+        [
+          {
+            "node": "Merge17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields13": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code9": {
+      "main": [
+        [
+          {
+            "node": "Merge17",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "project management2": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code12": {
+      "main": [
+        [
+          {
+            "node": "Message a model26",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model26": {
+      "main": [
+        [
+          {
+            "node": "Training7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If (found cv)3": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "general2": {
+      "main": [
+        [
+          {
+            "node": "General inquiries2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR2": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge19": {
+      "main": [
+        [
+          {
+            "node": "Merge21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge20": {
+      "main": [
+        [
+          {
+            "node": "Merge21",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge21": {
+      "main": [
+        [
+          {
+            "node": "repo HR2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model28": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildLeaveTicket2": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail info2": {
+      "main": [
+        [
+          {
+            "node": "forward Department heads1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet14": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message16": {
+      "main": [
+        [
+          {
+            "node": "Add label to message17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message17": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Info2": {
+      "main": [
+        [
+          {
+            "node": "repo Info2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo Info2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SALES2": {
+      "main": [
+        [
+          {
+            "node": "repo SALES2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CONTRACT2": {
+      "main": [
+        [
+          {
+            "node": "repo CONTRACT2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo PROJECT2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo FINANCE2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo SALES2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo CONTRACT2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet11": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet15": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message17": {
+      "main": [
+        [
+          {
+            "node": "Add label to message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message18": {
+      "main": [
+        [
+          {
+            "node": "Add label to message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message19": {
+      "main": [
+        [
+          {
+            "node": "Add label to message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message20": {
+      "main": [
+        [
+          {
+            "node": "Add label to message21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message18": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message19": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message20": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message21": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PROJECT2": {
+      "main": [
+        [
+          {
+            "node": "repo PROJECT2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FINANCE2": {
+      "main": [
+        [
+          {
+            "node": "repo FINANCE2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet16": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet17": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "forward Department heads1": {
+      "main": [
+        [
+          {
+            "node": "Sort by title and content analysis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Title and content analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sort by title and content analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Title and content analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email forwarding",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title and content analysis": {
+      "main": [
+        [
+          {
+            "node": "Sort by title and content analysis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email forwarding",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email forwarding": {
+      "main": [
+        [
+          {
+            "node": "Info2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SALES2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FINANCE2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PROJECT2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CONTRACT2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort by title and content analysis": {
+      "main": [
+        [
+          {
+            "node": "Switch9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If (found cv)3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "general2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Message a model28",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "call center": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "marketing": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "design": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Editor": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Content writer": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Business development": {
+      "main": [
+        [
+          {
+            "node": "Merge19",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "AI": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cyber security": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Financial": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "HR": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Contracts and Purchases": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "sales": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "public job application": {
+      "main": [
+        [
+          {
+            "node": "Merge20",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Mark a message as read1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR3": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Training7": {
+      "main": [
+        [
+          {
+            "node": "repo HR3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR5": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR6": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Training",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model27": {
+      "main": [
+        [
+          {
+            "node": "Code10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract cv": {
+      "main": [
+        [
+          {
+            "node": "Message a model29",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model29": {
+      "main": [
+        [
+          {
+            "node": "Message a model27",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Upload file9",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract cv",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file9": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code10": {
+      "main": [
+        [
+          {
+            "node": "Training",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Training": {
+      "main": [
+        [
+          {
+            "node": "repo HR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
+            "node": "repo HR5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "BuildLeaveTicket2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "repo HR7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR7": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model10": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model11": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent7",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model12": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent8",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model13": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent9",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model14": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent10",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model15": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent11",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Company Site12": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Company Site14": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Notify Company Site13": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Notify Company Site11": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Notify Company Site10": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as read4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR4": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet6": {
+      "main": [
+        [
+          {
+            "node": "repo HR4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "repo HR6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "AI Agent8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request15": {
+      "main": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request16": {
+      "main": [
+        [
+          {
+            "node": "AI Agent7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "445f79bf-0bac-4c77-9d53-9cf63f716491",
+  "meta": {
+    "instanceId": "94d8928ee7d246554afc9edcb506b2133b8c52e09d6ff7b96e153280f0958836"
+  },
+  "id": "P7Rz5XBnjM2hW4Pd",
+  "tags": []
+}

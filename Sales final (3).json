@@ -1,0 +1,3906 @@
+{
+  "name": "Sales final",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        192,
+        0
+      ],
+      "id": "d1d927ea-c6c6-423e-b796-92a5b9844726",
+      "name": "Message a model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c186a465-d622-4714-a588-584e54d87327",
+              "name": "=webViewLink",
+              "value": "={{ $json.webContentLink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        944
+      ],
+      "id": "49497fc1-c341-47c1-b3d2-8ad543ab0ce4",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// نفترض أن الملف في binary باسم \"data\"\nconst fileData = $binary.data.data; \n// نحول من base64 إلى نص\nconst text = Buffer.from(fileData, 'base64').toString('utf8');\n\nreturn [\n  {\n    json: {\n      text, // هذا هو النص المستخرج\n      fileName: $binary.data.fileName,\n      mimeType: $binary.data.mimeType,\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        192
+      ],
+      "id": "689c2d44-46bd-43ef-8821-a50de77f6d0b",
+      "name": "word",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// نفترض أن الملف في binary باسم \"data\"\nconst fileData = $binary.data.data; \n// نحول من base64 إلى نص\nconst text = Buffer.from(fileData, 'base64').toString('utf8');\n\nreturn [\n  {\n    json: {\n      text, // هذا هو النص المستخرج\n      fileName: $binary.data.fileName,\n      mimeType: $binary.data.mimeType,\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        384
+      ],
+      "id": "d40230ff-e31e-4409-b396-6b5321de2239",
+      "name": "csv"
+    },
+    {
+      "parameters": {
+        "operation": "xls",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        0,
+        592
+      ],
+      "id": "6159c220-c92c-4e74-a297-1018905cdead",
+      "name": "xls"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "attachment_0",
+        "options": {
+          "joinPages": true
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "59cb3b6e-e76d-42b8-94b1-34ccca4f183e",
+      "name": "pdf"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "اقرأ محتوى الملف المرفق واستخرج النص الكامل.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        192,
+        192
+      ],
+      "id": "af7b6bac-4367-4591-8fad-f53a4d603dcd",
+      "name": "word1",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "What's in this image?\n\n\nاستخرج النصوص المهمة من الصورة (عنوان، اسم، إجمالي، تاريخ). أعدها في JSON بالمفاتيح:\n{ \"title\": \"\", \"name\": \"\", \"total\": \"\", \"date\": \"\" }\n",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        0,
+        768
+      ],
+      "id": "e1a53ea3-224f-4c44-9a04-7be19dc295d5",
+      "name": "Analyze image",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=حلّل النص التالي واستخرج منه البيانات المطلوبة مثل الاسم، البريد، المهارات...\n{{ $json[\"text\"] }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        192,
+        384
+      ],
+      "id": "507e3176-2c13-454f-beb2-bf5f31198944",
+      "name": "csv1",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        192,
+        592
+      ],
+      "id": "a21876ba-9460-474f-a4bd-95f1d5f73740",
+      "name": "xls1",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        0
+      ],
+      "id": "9704f865-71c1-4ec1-b633-13087566bde3",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        192
+      ],
+      "id": "38b03a61-7732-45e6-a7d6-9a20f181cbf8",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        384
+      ],
+      "id": "a290d581-6804-43ea-a597-706ef2e59f26",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        592
+      ],
+      "id": "76fe5d55-7848-4750-b1d6-7a4f0a9e93b1",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        768
+      ],
+      "id": "727405f1-5117-49aa-b01b-38e78e5d2b15",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        944,
+        336
+      ],
+      "id": "b97bc0ab-1847-4e93-be2b-a43b583010d2",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "="
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        3040
+      ],
+      "id": "c11ad7dc-0be1-4394-9816-d1367fe69d95",
+      "name": "Mark a message as read10",
+      "webhookId": "05beca1d-4b32-4285-98c5-8922156a561b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        2832
+      ],
+      "id": "cd67127e-de37-4000-8647-6d4641b40f32",
+      "name": "CONTRACT2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        2640
+      ],
+      "id": "3766cc0e-d75c-4a43-afdf-e1dd8009339f",
+      "name": "repo PROJECT2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        2432
+      ],
+      "id": "0ac49a57-dc44-4f40-b201-db89e15d85a6",
+      "name": "repo FINANCE2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": "classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        2832
+      ],
+      "id": "d70688d0-fa31-4d39-a776-935ec04f90dc",
+      "name": "repo CONTRACT2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        2240
+      ],
+      "id": "28f6c45f-8959-453c-8fdf-4a75340d3b9f",
+      "name": "Append row in sheet11",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        2432
+      ],
+      "id": "c8cbef59-f025-43e8-b39b-509ffe90ecaf",
+      "name": "Append row in sheet15",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        2240
+      ],
+      "id": "2dc8e350-3c1a-47bc-bb33-2ba9f0ce1f4e",
+      "name": "Reply to a message17",
+      "webhookId": "15f22f26-8d4a-4cc8-8734-62f3dbe0a8e8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        2432
+      ],
+      "id": "ed9cd802-aaf8-4816-aa4e-585d6b818d1c",
+      "name": "Reply to a message18",
+      "webhookId": "cd37f156-a2ea-45ac-b134-68586dc42ef3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        2640
+      ],
+      "id": "2b79fe98-a812-43d6-965f-c071576d4888",
+      "name": "Reply to a message19",
+      "webhookId": "e0f44c5d-9537-4cc9-93ee-73c328e10df0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        2832
+      ],
+      "id": "78e74a34-a4c2-4446-a441-809bcd1d204c",
+      "name": "Reply to a message20",
+      "webhookId": "7e4006b3-09c4-42d4-b14f-53c7ec75b1d0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -480,
+        2240
+      ],
+      "id": "3e7817a4-9053-4617-a9c1-46cbb88d97c7",
+      "name": "Add label to message18",
+      "webhookId": "b8b258ae-516d-436a-8c1b-a6506ad7e76c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -480,
+        2432
+      ],
+      "id": "d07661e5-b8da-4e5b-bd78-ddfdbd2bf757",
+      "name": "Add label to message19",
+      "webhookId": "1535344f-bc06-43f5-9723-fc17367809d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -480,
+        2640
+      ],
+      "id": "77d216b3-b383-4afc-97f9-6d283cf4c2a3",
+      "name": "Add label to message20",
+      "webhookId": "9d933998-7c34-4da5-a797-404cee53f79f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -480,
+        2832
+      ],
+      "id": "506a05b9-3fdd-483e-b39e-1df153685157",
+      "name": "Add label to message21",
+      "webhookId": "02f2a0fb-4aea-4a87-845b-e9931390d504",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        2240
+      ],
+      "id": "81d22c92-f229-4105-9346-685f3abba11c",
+      "name": "Notify Company Site11"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        2432
+      ],
+      "id": "80574a23-81f9-44b1-875e-831399388e11",
+      "name": "Notify Company Site12"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        2640
+      ],
+      "id": "18e9cfc2-3623-47ca-90c1-9424f6a5c886",
+      "name": "Notify Company Site13"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        2832
+      ],
+      "id": "9ed2b1c4-9a0e-4c65-920f-acf6f96366e9",
+      "name": "Notify Company Site14"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "مرحبا ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        2640
+      ],
+      "id": "4b411a04-c281-42bf-b602-8c3eed5bcce4",
+      "name": "PROJECT2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        2432
+      ],
+      "id": "fe8e9b94-7067-467a-a9fa-4739835f27a7",
+      "name": "FINANCE2",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        2832
+      ],
+      "id": "0ba22363-a977-436b-96b7-0d7cdb67e285",
+      "name": "Append row in sheet16",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        2640
+      ],
+      "id": "38c0be30-6352-48fe-82d6-a45c5bdd32b2",
+      "name": "Append row in sheet17",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "61be9c2f-5bb0-4159-aa64-6be77b1b24d8",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cd94946e-edb0-4e1f-ab78-d22c9d4417f0",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "f2d6c23e-06f7-4427-a687-872068fa6625",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5cded0fe-c473-497c-8bf0-959a9a892d83",
+              "leftValue": "={{ $json.headers.from }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3792,
+        2160
+      ],
+      "id": "74ab935c-f5d7-41fe-8b5e-3175b7543973",
+      "name": "forward Department heads1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -3184,
+        2464
+      ],
+      "id": "908adefb-eb76-4bb6-9778-c221160d042e",
+      "name": "OpenAI Chat Model8",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1904,
+        2800
+      ],
+      "id": "cc8949a5-d266-49f2-b67e-7dd0ffddfb47",
+      "name": "OpenAI Chat Model9",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "The address and content are read and checked for attachments. The address and content are then analyzed to determine whether the email is real or fake. If it is real, it will be classified as the appropriate email. First, if there are attachments with the email, they will be moved with the classification to the next category: Sales, Finance, General Mail, Contracts and Purchasing, Projects, or Spam, which is then classified as deleted mail.",
+        "categories": {
+          "categories": [
+            {
+              "category": "HR",
+              "description": "Human resource  "
+            },
+            {
+              "category": "sales",
+              "description": "sales privacy "
+            },
+            {
+              "category": "finance ",
+              "description": "finance privacy "
+            },
+            {
+              "category": "project ",
+              "description": "project privacy "
+            },
+            {
+              "category": "contract",
+              "description": "contract privacy "
+            },
+            {
+              "category": "spam",
+              "description": "It has nothing to do with any email. It is considered a spam email such as advertisements, offers, and discounts."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -1824,
+        2464
+      ],
+      "id": "059391c4-bfae-49b0-863b-b31fecbdd93f",
+      "name": "Email forwarding"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2464,
+        2608
+      ],
+      "id": "253b54bf-c838-4eea-9eb3-a77b1482346f",
+      "name": "Mark a message as read7",
+      "webhookId": "c05d5a2f-c845-4b70-badf-f9ac65f3e077",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        2480
+      ],
+      "id": "b9d490bc-fd9f-49ec-b5b1-164dd35a5ac7",
+      "name": "AI Agent11"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        2672
+      ],
+      "id": "f2ef1be5-319e-4c55-b330-1d1bf4009415",
+      "name": "OpenAI Chat Model15",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        2064
+      ],
+      "id": "0ebebc24-cce8-48c7-a3e8-7d487a07fdf4",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        64,
+        2432
+      ],
+      "id": "1785ea63-7a7f-4e1a-b75e-33be38c8270e",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "HI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        2064
+      ],
+      "id": "2122e733-534e-4b24-af54-f5868651a975",
+      "name": "HR1",
+      "webhookId": "5f51eeef-41aa-4e69-b415-c3a2ad3e5240",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "63d62c04-7eb8-46cd-9d6e-55a4184f4d68",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        2064
+      ],
+      "id": "cd5d4a8c-189a-43c4-b73b-9f045fa90bf2",
+      "name": "repo HR1"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "message": "إرسال رد تلقائي من بريد info:  \"شكرًا لتواصلك، تم استلام رسالتك وسيتم التواصل معك قريبًا.\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        2064
+      ],
+      "id": "f0de42c3-c8fa-45e9-857d-35271edf2072",
+      "name": "Reply to a message5",
+      "webhookId": "40aa41c0-116d-441a-a56a-a028b49c4e82",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "إضافة وسم للرسالة الأصلية في Gmail مثل: Auto-Routed/HR أو Auto-Routed/Sales."
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -480,
+        2064
+      ],
+      "id": "d206ad9d-7697-40e7-a93c-766698edd8fa",
+      "name": "Add label to message",
+      "webhookId": "98f2da38-a5bc-4f83-9a85-8b07133f6f6f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -272,
+        2064
+      ],
+      "id": "00def5f2-7156-43bb-911c-e0a9560a93a0",
+      "name": "Notify Company Site6"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ ($json[\"subject\"] || \"\") + \" \" + ($json[\"text\"] || $json[\"body\"] || \"\") }}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "Sales",
+              "description": "sales department related emails"
+            },
+            {
+              "category": "Other",
+              "description": "non-sales departments (HR, Finance, etc.)"
+            },
+            {
+              "category": "Spam_or_irrelevant",
+              "description": "ads, discounts, bulk promos, generic notifications, security/login alerts"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "=You are an enterprise email router for a marketing company. Classify an email as one of:\n- sales\n- other (non-sales departments)\n- spam_or_irrelevant (ads, discounts, bulk promos, generic notifications, security/login alerts)\n\nAnalyze ONLY Subject and Body; ignore attachments and signatures.\n\nReturn EXACTLY one JSON object with THREE boolean flags: \"Sales\", \"Other\", \"Spam_or_irrelevant\".\nSet EXACTLY ONE flag to true (mutually exclusive). No extra text or markdown.\n\n\nFocus & Warnings:\n- The most common confusion is between sales and spam_or_irrelevant.\n- Sales emails are specific/personalized and involve real client intent (quotations, proposals, service requests, partnership).\n- Spam_or_irrelevant are mass/promotional or system alerts. If unsure between sales and spam, choose spam_or_irrelevant.\n\nGuidelines:\n- spam_or_irrelevant: promotions, coupons, discounts, “limited offer”, “save %”, cold marketing blasts, newsletters not sales-related, Google/security/login alerts, generic system notices without business value.\n- sales: clients, leads, quotations, proposals, offers, marketing campaigns, media buying, partnerships, collaborations, business opportunities, inbound/outbound sales communications.\n- other: HR/recruitment, CV/resume, internships/COOP/Tamheer, interviews, onboarding/offboarding, leave/attendance, payroll/salary certificates, grievances/discipline, HR policies/benefits/insurance, finance/invoices/payments, projects/timelines, contracts & procurement, general info@ inquiries, external platforms.\n\nAR/EN keyword hints (not rules):\n- spam_or_irrelevant: خصم, خصومات, كوبون, عرض, حملة ترويجية, unsubscribe, newsletter, offer, sale, discount, coupon, promo, login alert, security alert\n- sales: عرض سعر, عميل, زبون, مبيعات, leads, prospect, deal, عرض تسويقي, حملة, إعلان, تعاون, شراكة, proposal, quotation, offer, partnership, opportunity\n- other: وظيفة, توظيف, سيرة, CV, resume, تدريب, تمهير, coop, مقابلة, إجازة, غياب, راتب, تعريف, شهادة خبرة, تأمين, بدلات, شكاوى, تظلم, فاتورة, مشروع, عقد, مشتريات\n\nOutput format (ONE LINE JSON only; no markdown, no text):\nKeys: \"sales\", \"other\", \"spam_or_irrelevant\". Exactly one must be true; the rest false.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -3104,
+        2256
+      ],
+      "id": "e8f45451-6c9b-4f86-b371-a812fceab3c4",
+      "name": "classify1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2032,
+        1392
+      ],
+      "id": "21936c47-7e1b-4416-af68-beceac1162b5",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1104,
+        1600
+      ],
+      "id": "c961d49d-9280-4121-a39f-390c07d3540f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ \n  'SUBJECT: ' + ($json[\"subject\"] || '') + \n  '\\nBODY: ' + ($json[\"text\"] || $json[\"body\"] || $json[\"plainText\"] || $json[\"snippet\"] || '') + \n  '\\nATTACHMENTS_PRESENT: ' + ( $binary && Object.keys($binary).some(k => k.startsWith('attachment_')) ? 'YES' : 'NO' )\n}}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "email_normalize"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "=You are a strict email analyzer for a marketing company.\n\nRead the SUBJECT, BODY, and ATTACHMENTS_PRESENT from the input text.\nYour job: return one valid JSON object on a single line — no markdown, no explanations.\n\nThe JSON must contain these exact keys (IN THIS ORDER):\nemail_normalize, subject, body, summary, has_attachments\n\nInstructions:\n- email_normalize: always true (boolean)\n- subject: clean the subject (remove prefixes like Re:, Fw:, etc.)\n- body: keep only the main content, short (≤ 600 chars), remove greetings, signatures, disclaimers, trackers\n- summary: one concise sentence summarizing the email (Arabic if input is Arabic, otherwise English)\n- has_attachments: strictly derived from ATTACHMENTS_PRESENT (YES → true, NO → false)\n- Always include all fields even if values are empty or \"---\"\n- Output must be ONE-LINE JSON only — no code fences, no markdown\n\nExample output (for illustration only):\nemail_normalize=true, subject=\"...\", body=\"...\", summary=\"...\", has_attachments=false\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -1024,
+        1392
+      ],
+      "id": "986839c0-3170-4a35-b3b2-37b878e78b9d",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $binary?.attachment_0?.mimeType\n  || $binary?.data?.mimeType\n  || ($binary?.attachment_0?.fileName || $binary?.data?.fileName || '').toLowerCase()\n  || $json?.mimeType\n  || 'unknown' }}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "pdf",
+              "description": "ملفات PDF"
+            },
+            {
+              "category": "word",
+              "description": "ملفات Word"
+            },
+            {
+              "category": "csv",
+              "description": "ملفات CSV"
+            },
+            {
+              "category": "xls",
+              "description": "ملفات Excel"
+            },
+            {
+              "category": "png",
+              "description": "صور PNG / JPG"
+            },
+            {
+              "category": "other",
+              "description": "أي نوع آخر"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "=You are a strict attachment type classifier.\n\nRead the MIME type or filename extension provided in the input.\nReturn EXACTLY one JSON object on ONE LINE (no markdown, no newlines, no explanations) with these keys IN THIS EXACT ORDER:\n\n\n\nRules:\n- Set only ONE key to true — all others must be false.\n- pdf → if \"application/pdf\" or ends with .pdf\n- word → if \"application/vnd.openxmlformats-officedocument.wordprocessingml.document\" or ends with .doc/.docx\n- csv → if \"text/plain\" or \"text/csv\"\n- xls → if \"application/vnd.ms-excel\" or ends with .xls/.xlsx\n- png → if \"image/png\" or ends with .png/.jpg/.jpeg/.gif\n- other → any unknown or different type\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        320
+      ],
+      "id": "b677feab-4b3b-4f4d-aa03-95671e7cd25c",
+      "name": "Text Classifier1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -592,
+        624
+      ],
+      "id": "d55d11c2-95fb-47fb-9138-ec4c5af62d66",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $binary?.attachment_0?.mimeType\n  || $binary?.data?.mimeType\n  || ($binary?.attachment_0?.fileName || $binary?.data?.fileName || '').toLowerCase()\n  || $json?.mimeType\n  || 'unknown' }}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "pdf",
+              "description": "ملفات PDF"
+            },
+            {
+              "category": "word",
+              "description": "ملفات Word"
+            },
+            {
+              "category": "csv",
+              "description": "ملفات CSV"
+            },
+            {
+              "category": "xls",
+              "description": "ملفات Excel"
+            },
+            {
+              "category": "png",
+              "description": "صور PNG / JPG"
+            },
+            {
+              "category": "other",
+              "description": "أي نوع آخر"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "=You are a strict attachment type classifier.\n\nRead the MIME type or filename extension provided in the input.\nReturn EXACTLY one JSON object on ONE LINE (no markdown, no newlines, no explanations) with these keys IN THIS EXACT ORDER:\n\n\n\nRules:\n- Set only ONE key to true — all others must be false.\n- pdf → if \"application/pdf\" or ends with .pdf\n- word → if \"application/vnd.openxmlformats-officedocument.wordprocessingml.document\" or ends with .doc/.docx\n- csv → if \"text/plain\" or \"text/csv\"\n- xls → if \"application/vnd.ms-excel\" or ends with .xls/.xlsx\n- png → if \"image/png\" or ends with .png/.jpg/.jpeg/.gif\n- other → any unknown or different type\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -352,
+        1328
+      ],
+      "id": "05af9834-7b3f-4737-a35c-9c8f12fbe82f",
+      "name": "Text Classifier2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        1632
+      ],
+      "id": "30615ee6-50d6-4673-9b87-b53bf292f4ff",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDghyCKuFh5GlDZ3",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        896
+      ],
+      "id": "f441da02-0fd5-4470-ad7a-1876937b8a61",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        896
+      ],
+      "id": "46eefd37-93c3-4db0-87bc-68d7fefe004f",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        1056
+      ],
+      "id": "b6ebfa15-dfbc-4141-abb1-77b97bda9640",
+      "name": "Upload file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        1056
+      ],
+      "id": "476662ae-0a2f-4b2d-a4c6-c1862d386e92",
+      "name": "Append or update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        1232
+      ],
+      "id": "3fe0fd9c-57ec-4d98-aa5d-8cfe91e6310b",
+      "name": "Upload file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        1232
+      ],
+      "id": "ac0130cf-4bda-41cd-9b0b-73abe900fdcd",
+      "name": "Append or update row in sheet3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        1408
+      ],
+      "id": "eb1dbcec-951c-4b24-a91d-4ddb6b247dfa",
+      "name": "Upload file3",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        1408
+      ],
+      "id": "77856a1a-e56d-4964-a710-5c601a3242ad",
+      "name": "Append or update row in sheet4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        1584
+      ],
+      "id": "abf17cc5-9bec-4025-8f99-d201d0053781",
+      "name": "Upload file4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        1584
+      ],
+      "id": "2da25767-0c16-4892-81e4-c6e811d738cc",
+      "name": "Append or update row in sheet5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "attachment_0",
+        "name": "={{ $binary.attachment_0.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        1760
+      ],
+      "id": "482fe86b-f93c-4607-b440-dd877feddb29",
+      "name": "Upload file5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "1in4nmq3QLv1ehMv",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        1760
+      ],
+      "id": "def9dcf0-4a9e-4dfd-813f-482515008685",
+      "name": "Append or update row in sheet6",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FsEqx6IMVHa3tBzE",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        896
+      ],
+      "id": "87a1c163-1f1c-4f68-82e6-8ad3399cda3d",
+      "name": "BuildSalesReportRow1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        1056
+      ],
+      "id": "19f04762-168d-45a2-b917-39db1a8b1d69",
+      "name": "BuildSalesReportRow2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        1232
+      ],
+      "id": "11fcda8f-5ec6-467b-9e70-6a602a9f696e",
+      "name": "BuildSalesReportRow3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        1408
+      ],
+      "id": "e1fc8046-ec85-49ea-a698-aec6b8686f61",
+      "name": "BuildSalesReportRow4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        1584
+      ],
+      "id": "7e1c2ae2-972d-4c0a-9e6e-23b8cf39513a",
+      "name": "BuildSalesReportRow5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        1760
+      ],
+      "id": "48f35b1b-7aff-4952-a5f8-6b967b2b5983",
+      "name": "BuildSalesReportRow6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        896
+      ],
+      "id": "da2f9ca9-c378-4db4-a00c-4ac2d81d8fa1",
+      "name": "Notify Company Site1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        1056
+      ],
+      "id": "3a785c73-2033-45cf-bc85-374d8b24cd43",
+      "name": "Notify Company Site2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        1232
+      ],
+      "id": "75ab1065-c073-4fea-ac86-16bdbb40fe66",
+      "name": "Notify Company Site3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        1408
+      ],
+      "id": "1d860811-6428-4eb2-889b-f14a14fe7cd6",
+      "name": "Notify Company Site4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        1584
+      ],
+      "id": "2b9e685a-8633-4089-8079-a97e447fe74e",
+      "name": "Notify Company Site5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        1760
+      ],
+      "id": "2694a06c-7f75-4e4a-8bf9-ab73e8e1788b",
+      "name": "Notify Company Site7"
+    },
+    {
+      "parameters": {
+        "subject": "={{ $json.subject }}",
+        "message": "مرحبا",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1312,
+        2240
+      ],
+      "id": "3e5cfea3-be02-4d7d-afa4-4af0b6ae4c3d",
+      "name": "info",
+      "webhookId": "dfbb82d3-fd9d-4f08-8902-66f6ce2c0a79",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7cb7926-f799-48d0-960c-32d9736893b8",
+              "name": "from email",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d4b1be85-4aca-4eb7-b427-a852efd44095",
+              "name": "subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "b9d3b8b6-34a3-4b5e-a243-8cb9bb58ec87",
+              "name": "date & time",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a26ec523-79db-48b6-a7ae-1a35fe1e216c",
+              "name": " classify",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36e58ba8-f12b-47da-b9bf-42bb1df90461",
+              "name": "forward_to",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        2240
+      ],
+      "id": "afbc75e6-ae32-4c15-8f17-db1ab68d42a1",
+      "name": "repo info"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1376,
+        384
+      ],
+      "id": "5c81a38f-87b4-480b-b5e5-0b8706729adc",
+      "name": "Notify Company Site"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37ca5957-ef06-4b52-ae59-b8f7e6c5cdb4",
+              "name": "DriveLinks",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "3cc7445c-1bd7-48d2-960f-525e11ca61e3",
+              "name": "From",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "4b55d253-9075-48d8-951b-c0f400cba68d",
+              "name": "Subject",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "38924e19-5df2-44fb-a927-5bb28edb6ad5",
+              "name": "Category",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c299ad67-6b65-4872-bf50-ea77c53a44da",
+              "name": "Confidence",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "c02eb347-40f4-4bc5-b192-eb90f77f4325",
+              "name": "Summary",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "36530a1f-596e-41a8-ab2b-4529d4e8017e",
+              "name": "Timestamp (riyadh)",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a4fa18ed-2d2e-464b-8ce5-729da17c7f61",
+              "name": "LeadName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "159cafdb-9a0b-49d8-baa4-c871b00ea1d4",
+              "name": "Company",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5acf6685-30ca-4860-81ef-4b5510051171",
+              "name": "Phone",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "cc8a332a-9e9d-4a85-9350-d096e30a81f2",
+              "name": "Service",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "efaf7b05-6e86-4fd2-a10a-8e11e2a3801a",
+              "name": "Budget",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "8ffea2b2-3cb0-4a2c-9aca-8ef5aaff6450",
+              "name": "Timeline",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "95f2f2f9-6381-42a6-804c-dc95554f81d3",
+              "name": "ThreadId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "81416ce8-56a6-4ae5-aa93-41316d5f2247",
+              "name": "MessageId",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "5fd70bab-c147-4fbc-94a6-7e8fb637a8a2",
+              "name": "=فعِّل Keep Only Set = ON، وأضف الحقول التالية (كلها Expressions):  Timestamp = ={{ $json.timestamp_riyadh || $now }}  From = ={{ $json.from_email || $json.from?.email || $json.from }}  Subject = ={{ $json.subject }}  Category = ={{ $json.final_category || $json.category || $json.predicted_label || '' }}  Confidence = ={{ $json.category_confidence || $json.confidence || '' }}  Summary = ={{ $json.short_summary || $json.summary || '' }}",
+              "value": "=(حقول العميل – لو متوفرة)  LeadName = ={{ $json.lead_name || '' }}  Company = ={{ $json.company || '' }}  Phone = ={{ $json.phone || $json.whatsapp || '' }}  RequestedService = ={{ $json.requested_service || '' }}  Budget = ={{ $json.budget || '' }}  Timeline = ={{ $json.timeline || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8167f366-d9ab-4723-aef8-2ee2734e2d80",
+              "name": "=(مرفقات وروابط – لو موجودة)  AttachmentsCount = ={{ $binary ? Object.keys($binary).length : 0 }}  DriveLinks = ={{ $json.DriveLinks || $json.drive_links || '' }}  (حالة المعالجة النهائية)  AutoAckSent = ={{ true }} (إذا كنت ترسل رد تلقائي قبل هذه العقدة)  ForwardedTo = ={{ $json.forward_to || '' }}  LabelsApplied = ={{ $json.labels_applied || '' }}  FinalPath = ={{ $json.final_path || 'sales_true' }}  (معرّفات وروابط)  ThreadId = ={{ $json.threadId || '' }}  MessageId = ={{ $json.messageId || $json.id || '' }}  GmailLink = ={{ 'https://mail.google.com/mail/u/0/#all/' + ($json.threadId || $json.messageId || $json.id || '') }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        384
+      ],
+      "id": "59ec2eb0-46b7-4825-a52a-fd076891e76f",
+      "name": "BuildSalesReportRow"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3968,
+        2160
+      ],
+      "id": "655ce5b4-be1c-4e82-80f4-7e1c63dd5fd2",
+      "name": "Gmail info",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZYKGhc6Znfh0xdsC",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Message a model2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "word": {
+      "main": [
+        [
+          {
+            "node": "word1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "csv": {
+      "main": [
+        [
+          {
+            "node": "csv1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "xls": {
+      "main": [
+        [
+          {
+            "node": "xls1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pdf": {
+      "main": [
+        [
+          {
+            "node": "Message a model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "word1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "csv1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "xls1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "CONTRACT2": {
+      "main": [
+        [
+          {
+            "node": "repo CONTRACT2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo PROJECT2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo FINANCE2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo CONTRACT2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet11": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet15": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message17": {
+      "main": [
+        [
+          {
+            "node": "Add label to message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message18": {
+      "main": [
+        [
+          {
+            "node": "Add label to message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message19": {
+      "main": [
+        [
+          {
+            "node": "Add label to message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message20": {
+      "main": [
+        [
+          {
+            "node": "Add label to message21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message18": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message19": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message20": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message21": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Company Site11": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Notify Company Site12": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Notify Company Site13": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Notify Company Site14": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "PROJECT2": {
+      "main": [
+        [
+          {
+            "node": "repo PROJECT2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FINANCE2": {
+      "main": [
+        [
+          {
+            "node": "repo FINANCE2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet16": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet17": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "forward Department heads1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "classify1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "classify1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email forwarding",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email forwarding": {
+      "main": [
+        [
+          {
+            "node": "HR1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "info",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FINANCE2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PROJECT2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CONTRACT2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model15": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent11",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HR1": {
+      "main": [
+        [
+          {
+            "node": "repo HR1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo HR1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to a message5": {
+      "main": [
+        [
+          {
+            "node": "Add label to message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Company Site6": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "classify1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Email forwarding",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Text Classifier2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier1": {
+      "main": [
+        [
+          {
+            "node": "pdf",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "word",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "csv",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "xls",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier2": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file2": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet3": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file3": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet4": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file4": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet5": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file5": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet6": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow1": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow2": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow3": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow4": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow5": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow6": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "info": {
+      "main": [
+        [
+          {
+            "node": "repo info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "repo info": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuildSalesReportRow": {
+      "main": [
+        [
+          {
+            "node": "Notify Company Site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail info": {
+      "main": [
+        [
+          {
+            "node": "forward Department heads1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "BuildSalesReportRow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5775d507-f147-4746-8aaf-15509bd72a6c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "94d8928ee7d246554afc9edcb506b2133b8c52e09d6ff7b96e153280f0958836"
+  },
+  "id": "taVPQPaziyurkGDT",
+  "tags": []
+}
